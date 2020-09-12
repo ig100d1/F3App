@@ -26,7 +26,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecAdapterViewHo
     public RecAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_view_row, parent, false);
-
         return new RecAdapterViewHolder(view);
     }
 
@@ -34,7 +33,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecAdapterViewHo
     public void onBindViewHolder(@NonNull RecAdapterViewHolder holder, int position) {
         holder.termName.setText(data[position]);
         holder.termDescription.setText("Description " + Integer.toString(position));
-
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -58,10 +56,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecAdapterViewHo
             termName = itemView.findViewById(R.id.term_name_txt);
             termDescription = itemView.findViewById(R.id.term_description_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);
-
-
         }
-
     }
 }
 

@@ -21,13 +21,12 @@ public class Main2Activity extends AppCompatActivity {
         terms = getResources().getStringArray(R.array.terms);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-
         //System.out.println("IGOR DEBUG: " + terms);
         for(int i = 0 ; i< terms.length; i++) {
             Log.i(TAG, " IGOR_DEBUG - " + terms[i].toString());
         }
-        RecAdapter recAdapter = new RecAdapter( this, terms);
 
+        RecAdapter recAdapter = new RecAdapter( this, terms);
         mRecyclerView.setAdapter(recAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
