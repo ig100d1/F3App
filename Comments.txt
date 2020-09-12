@@ -1,0 +1,58 @@
+Recycler View
+
+add recycler view added inside main activity layout
+
+recyclerView layout_width and height
+ should be matching parent
+
+in resources strings.xml
+ create string-array with <items>
+
+images should be copied into drawable folder
+ and can be accessible from MainActivity
+ with R.drawable.image_name
+
+android studio project has `res' folder
+ that has subfolders:
+   drawable,values,layout
+ ?what are the rules to resolve those subfolders?
+
+between recyclerView and string data
+ create adapter from
+   RecyclerView.Adapter<Object T>
+ during the presentation <Object T> is inner class
+ Adapters provide a binding from an app-specific data set to
+   views that are displayed within a RecyclerView.
+
+from main activity need to have clickable to 2nd activity
+
+
+
+understand proper flow of logic, which methods are called
+during which events
+
+https://developer.android.com/guide/topics/ui/layout/recyclerview
+The views in the list are represented by view holder objects. These objects are instances of a class you define by extending RecyclerView.ViewHolder. Each view holder is in charge of displaying a single item with a view. For example, if your list shows music collection, each view holder might represent a single album. The RecyclerView creates only as many view holders as are needed to display the on-screen portion of the dynamic content, plus a few extra. As the user scrolls through the list, the RecyclerView takes the off-screen views and rebinds them to the data which is scrolling onto the screen.
+
+
+
+
+The view holder objects are managed by an adapter, which you create by extending RecyclerView.Adapter. The adapter creates view holders as needed. The adapter also binds the view holders to their data. It does this by assigning the view holder to a position, and calling the adapter's onBindViewHolder() method. That method uses the view holder's position to determine what the contents should be, based on its list position.
+
+
+Room Android
+https://www.youtube.com/watch?v=ARpn-1FPNE4
+https://www.youtube.com/watch?v=Jwdty9jQN0E
+
+https://developer.android.com/topic/libraries/support-library/refactor
+
+
+search google android documentation
+"Adding Components to your Project"
+
+
+#ViewModel, AndroidViewModel-<-AndroidViewModel
+https://www.youtube.com/watch?v=JLwW5HivZg4
+
+
+

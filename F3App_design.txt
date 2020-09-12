@@ -1,0 +1,7 @@
+Table:Term
+
+TermTitle
+StartDate
+EndDate
+
+- 

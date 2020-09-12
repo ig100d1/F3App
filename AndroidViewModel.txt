@@ -1,0 +1,41 @@
+https://developer.android.com/reference/androidx/lifecycle/AndroidViewModel
+
+extend AndroidViewModel (Application application)?
+
+should never store context in viewModel, because it is getting destroyed on layout change
+
+       	     
+
+ViewModel is designed to outlive activity
+
+
+Android Activity Lifecycle
+https://developer.android.com/guide/components/activities/activity-lifecycle.html
+https://www.youtube.com/watch?v=reSPN7mgshI
+
+
+View+ViewModel+Model (VVMM)?
+
+Part 1
+https://www.youtube.com/watch?v=ARpn-1FPNE4
+
+Part 2
+https://www.youtube.com/watch?v=ARpn-1FPNE4
+
+Part 3 noteDao,NoteDatabase
+https://www.youtube.com/watch?v=0cg09tlAAQ0
+
+
+Part 7
+https://www.youtube.com/watch?v=RhGMd8SsA14
+
+Room Persistence Library
+ - SQLite + Entity
+ - DAO data access object
+
+Repository
+ - mediate between different data sources
+
+LiveData
+- any data changes got notified to View to refersh UI
+
