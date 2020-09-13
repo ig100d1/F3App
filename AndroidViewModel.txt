@@ -42,7 +42,11 @@ https://www.youtube.com/watch?v=JLwW5HivZg4
  - it different from ViewModel by taking application for context that will be passed to RoomDatabase, while destroyed
  - ViewModel is simple class and needs to be referenced by activity
  Activity
- 
+
+Part 6
+https://www.youtube.com/watch?v=reSPN7mgshI
+  recyclierview
+  
 
 
 
