@@ -1,0 +1,65 @@
+https://developer.android.com/reference/androidx/lifecycle/AndroidViewModel
+
+extend AndroidViewModel (Application application)?
+
+should never store context in viewModel, because it is getting destroyed on layout change
+
+       	     
+
+ViewModel is designed to outlive activity
+
+
+Android Activity Lifecycle
+https://developer.android.com/guide/components/activities/activity-lifecycle.html
+https://www.youtube.com/watch?v=reSPN7mgshI
+
+
+View+ViewModel+Model (VVMM)?
+
+Context
+https://www.youtube.com/watch?v=-e6lyXIkIl0
+ acitvity , application, service is subclasses of abstract class "Context"
+ application context lives longer then activity or service
+ 
+Part 1
+https://www.youtube.com/watch?v=ARpn-1FPNE4
+
+Part 2
+https://www.youtube.com/watch?v=ARpn-1FPNE4
+
+Part 3 noteDao,NoteDatabase
+https://www.youtube.com/watch?v=0cg09tlAAQ0
+
+Part 4
+https://www.youtube.com/watch?v=HhmA9S53XV8
+ repository - best practices for abstraction level, for now only sqlite
+ private class that extends AsyncTask
+ very complicated, edited TermDatabase for more private inner classes
+
+Part 5 View models
+https://www.youtube.com/watch?v=JLwW5HivZg4
+ extending AndroidViewModel (ViewModel is designed to outlive activity)
+ - it different from ViewModel by taking application for context that will be passed to RoomDatabase, while destroyed
+ - ViewModel is simple class and needs to be referenced by activity
+ Activity
+
+Part 6
+https://www.youtube.com/watch?v=reSPN7mgshI
+  recyclierview
+  
+
+
+
+Part 7
+https://www.youtube.com/watch?v=RhGMd8SsA14
+
+Room Persistence Library
+ - SQLite + Entity
+ - DAO data access object
+
+Repository
+ - mediate between different data sources
+
+LiveData
+- any data changes got notified to View to refersh UI
+

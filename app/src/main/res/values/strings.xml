@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">F3App</string>
+
+
+    <string-array name="terms">
+
+        <item>Winter 2014</item>
+        <item>Spring 2014</item>
+        <item>Summer 2014</item>
+        <item>Fall 2014</item>
+
+        <item>Winter 2015</item>
+        <item>Spring 2015</item>
+        <item>Summer 2015</item>
+        <item>Fall 2015</item>
+
+
+        <item>Winter 2016</item>
+        <item>Spring 2016</item>
+        <item>Summer 2016</item>
+        <item>Fall 2016</item>
+
+
+        <item>Winter 2017</item>
+        <item>Spring 2017</item>
+        <item>Summer 2017</item>
+        <item>Fall 2017</item>
+
+        <item>Winter 2018</item>
+        <item>Spring 2018</item>
+        <item>Summer 2018</item>
+        <item>Fall 2018</item>
+
+        <item>Winter 2019</item>
+        <item>Spring 2019</item>
+        <item>Summer 2019</item>
+        <item>Fall 2019</item>
+
+        <item>Winter 2020</item>
+        <item>Spring 2020</item>
+        <item>Summer 2020</item>
+        <item>Fall 2020</item>
+
+        <item>Winter 2021</item>
+        <item>Spring 2021</item>
+        <item>Summer 2021</item>
+        <item>Fall 2021</item>
+
+    </string-array>
+
+    <string name="title_activity_term">TermActivity</string>
+
 </resources>
