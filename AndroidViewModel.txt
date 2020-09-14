@@ -45,7 +45,11 @@ https://www.youtube.com/watch?v=JLwW5HivZg4
 
 Part 6
 https://www.youtube.com/watch?v=reSPN7mgshI
+  - card view https://developer.android.com/reference/androidx/cardview/widget/CardView
   recyclierview
+  - TermAdapter
+  coordinatorLayout in main_activity.xml should be implemented for floating control buttons
+  notifyDataSetChanged()
   
 
 
