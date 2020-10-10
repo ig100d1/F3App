@@ -1,6 +1,7 @@
 package com.example.f3app;
 
-import java.util.Date;
+
+import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -10,8 +11,8 @@ public class Term {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     public int getId() {
         return id;
@@ -21,11 +22,12 @@ public class Term {
         return title;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+
+    public String getEndDate() {
         return endDate;
     }
 
@@ -37,15 +39,16 @@ public class Term {
         this.title = title;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public Term(String title, Date startDate, Date endDate) {
+    public Term(String title, String startDate, String endDate) {
+        Log.i("IGOR_DEBUG", "Term constructor started");
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;

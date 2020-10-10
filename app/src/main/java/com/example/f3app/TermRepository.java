@@ -15,20 +15,29 @@ public class TermRepository {
     public TermRepository(Application application) {
         TermDatabase termDatabase = TermDatabase.getInstance(application);
         termDao = termDatabase.termDao();
+//        Term t1 = new Term("Term Test", "2020-01-01","2020-02-01");
+//        igor: debugging by inserting
+//        this.insert(t1);
         allTerms = termDao.getAllTerms();
+
     }
+
     public void insert(Term term){
         new InsertTermAsyncTask(termDao).execute(term);
     }
+
     public void update(Term term){
         new UpdateTermAsyncTask(termDao).execute(term);
     }
+
     public void delete(Term term){
         new DeleteTermAsyncTask(termDao).execute(term);
     }
+
     public void deleteAllTerms(){
         new DeleteAllTermsAsyncTask(termDao).execute();
     }
+
     public LiveData<List<Term>> getAllTerms(){
         return allTerms;
     }
@@ -47,6 +56,7 @@ public class TermRepository {
             return null;
         }
     }
+
     private static class UpdateTermAsyncTask extends AsyncTask<Term , Void, Void > {
         private TermDao termDao;
         private UpdateTermAsyncTask(TermDao termDao_){
@@ -69,7 +79,6 @@ public class TermRepository {
             return null;
         }
     }
-
 
     private static class DeleteAllTermsAsyncTask extends AsyncTask<Void , Void, Void > {
         private TermDao termDao;

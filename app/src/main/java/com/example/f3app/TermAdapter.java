@@ -2,6 +2,7 @@ package com.example.f3app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecAdapterViewHolder> {
+public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterViewHolder> {
 
-    private List<Term> terms = new ArrayList<Term>();
-    Context context;
+    private List<Term> terms = new ArrayList<>();
 
 
     @NonNull
     @Override
-    public RecAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+    public TermAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.term, parent, false);
-        return new RecAdapterViewHolder(view);
+
+        return new TermAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TermAdapterViewHolder holder, int position) {
 
         holder.termName.setText(terms.get(position).getTitle());
         holder.termStartDate.setText(terms.get(position).getStartDate().toString());
@@ -59,18 +60,20 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecAdapterViewHo
         notifyDataSetChanged();
     }
 
-    public class RecAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class TermAdapterViewHolder extends RecyclerView.ViewHolder{
         private TextView termName;
         private TextView termStartDate;
         private TextView termEndDate;
         ConstraintLayout mainLayout;
 
-        public RecAdapterViewHolder(@NonNull View itemView){
+        public TermAdapterViewHolder(@NonNull View itemView){
             super(itemView);
+            Log.i("IGOR_DEBUG", "started TermAdapterViewHolder constructor");
             termName = itemView.findViewById(R.id.text_view_name);
             termStartDate = itemView.findViewById(R.id.text_view_start_date);
             termEndDate = itemView.findViewById(R.id.text_view_end_date);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+            Log.i("IGOR_DEBUG", "started TermAdapterViewHolder constructor");
         }
     }
 }

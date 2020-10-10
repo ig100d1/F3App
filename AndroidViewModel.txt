@@ -27,14 +27,19 @@ https://www.youtube.com/watch?v=ARpn-1FPNE4
 Part 2
 https://www.youtube.com/watch?v=ARpn-1FPNE4
 
-Part 3 noteDao,NoteDatabase
-https://www.youtube.com/watch?v=0cg09tlAAQ0
+Part 3 noteDao, TermDatabase
+  https://www.youtube.com/watch?v=0cg09tlAAQ0
+  # room database documentation
+    https://developer.android.com/training/data-storage/room#java
 
 Part 4
 https://www.youtube.com/watch?v=HhmA9S53XV8
  repository - best practices for abstraction level, for now only sqlite
  private class that extends AsyncTask
  very complicated, edited TermDatabase for more private inner classes
+ https://developer.android.com/reference/android/os/AsyncTask
+ https://developer.android.com/guide/components/processes-and-threads
+ 
 
 Part 5 View models
 https://www.youtube.com/watch?v=JLwW5HivZg4
@@ -43,13 +48,17 @@ https://www.youtube.com/watch?v=JLwW5HivZg4
  - ViewModel is simple class and needs to be referenced by activity
  Activity
 
+
 Part 6
 https://www.youtube.com/watch?v=reSPN7mgshI
   - card view https://developer.android.com/reference/androidx/cardview/widget/CardView
+   -- term.xml in layouts
   recyclierview
   - TermAdapter
   coordinatorLayout in main_activity.xml should be implemented for floating control buttons
   notifyDataSetChanged()
+
+  - recycler view adapater requires 3 methods override
   
 
 

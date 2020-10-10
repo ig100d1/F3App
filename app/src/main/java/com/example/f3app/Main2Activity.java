@@ -21,23 +21,33 @@ public class Main2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("IGOR_DEBUG", "started main activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+//        terms = getResources().getStringArray(R.array.terms);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
+
+        Log.i("IGOR_DEBUG", " created mRecyclerView");
+
+        TermAdapter termAdapter = new TermAdapter();
+        mRecyclerView.setAdapter(termAdapter);
+
+        Log.i("IGOR_DEBUG", "created termAdapter");
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
+
+        Log.i("IGOR_DEBUG", "created termViewModel");
+
         termViewModel.getAllTerms().observe(this, new Observer<List<Term>>() {
             @Override
             public void onChanged(List<Term> terms) {
                 // update recyclerView
+                Log.i("IGOR_DEGBUG", "running termViewModel.getAllTerms.observer onchanged");
+                termAdapter.setTerms(terms);
             }
         });
-        terms = getResources().getStringArray(R.array.terms);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // test without this, why do we need this?
-        mRecyclerView.setHasFixedSize(true);
-        RecAdapter recAdapter = new RecAdapter();
-        mRecyclerView.setAdapter(recAdapter);
 
     }
 
