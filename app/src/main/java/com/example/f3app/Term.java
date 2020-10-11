@@ -26,7 +26,6 @@ public class Term {
         return startDate;
     }
 
-
     public String getEndDate() {
         return endDate;
     }

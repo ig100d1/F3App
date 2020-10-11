@@ -1,3 +1,14 @@
+Android Studio:
+when error:
+ "License for package Android SDK Build-Tools 29.0.3 not accepted."
+fix with:
+cd /Users/igor/Library/Android/sdk/tools/bin
+sdbmanager --license
+
+
+Error: no target device found
+
+
 Recycler View
 
 add recycler view added inside main activity layout
