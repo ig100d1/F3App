@@ -57,18 +57,28 @@ https://www.youtube.com/watch?v=reSPN7mgshI
   - TermAdapter
   coordinatorLayout in main_activity.xml should be implemented for floating control buttons
   notifyDataSetChanged()
-
   - recycler view adapater requires 3 methods override
+  - ended with list of recycler view items not editable
   
-
 
 
 Part 7
 https://www.youtube.com/watch?v=RhGMd8SsA14
+  - learning to add manually new Term
+  - not using fragments, but activity
+  - adding plus button from drawwable vector asset
+  - Layouts:
+    https://developer.android.com/guide/topics/ui/declaring-layout
+  - ?How to make date picker hiding, visible and invisible
+  - finished with ability to add new Term
+  -
 
-Room Persistence Library
- - SQLite + Entity
- - DAO data access object
+Part 8
+https://www.youtube.com/watch?v=QJUCD32dzHE
+  - deleting term +done
+  - deleting all terms !not done
+  - 
+  
 
 Repository
  - mediate between different data sources

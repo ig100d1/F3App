@@ -55,6 +55,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
         return terms.size();
     }
 
+    public Term getTermAt(int position) {
+        return terms.get(position);
+    }
+
     public void setTerms(List<Term> terms){
         this.terms = terms;
         notifyDataSetChanged();

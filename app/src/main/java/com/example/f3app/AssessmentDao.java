@@ -13,18 +13,18 @@ import java.util.List;
 @Dao
 public interface AssessmentDao {
     @Insert
-    void insert(Assessment course);
+    void insert(Assessment assessment);
 
     @Update
-    void update(Assessment course);
+    void update(Assessment assessment);
 
     @Delete
-    void delete(Assessment course);
+    void delete(Assessment assessment);
 
-    @Query("DELETE FROM course")
+    @Query("DELETE FROM assessment")
     void deleteAllAssessments();
 
-    @Query("SELECT * FROM course ORDER BY startDate ASC")
+    @Query("SELECT * FROM assessment ORDER BY completionDate ASC")
     LiveData<List<Assessment>> getAllAssessments();
 
 }

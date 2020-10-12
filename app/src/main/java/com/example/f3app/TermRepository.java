@@ -10,37 +10,146 @@ import java.util.List;
 
 public class TermRepository {
     private TermDao termDao;
+    private CourseDao courseDao;
+    private AssessmentDao assessmentDao;
     private LiveData<List<Term>> allTerms;
+    private LiveData<List<Course>> allCourses;
+    private LiveData<List<Assessment>> allAssessments;
 
+    // constructor
     public TermRepository(Application application) {
         TermDatabase termDatabase = TermDatabase.getInstance(application);
         termDao = termDatabase.termDao();
-//        Term t1 = new Term("Term Test", "2020-01-01","2020-02-01");
-//        igor: debugging by inserting
-//        this.insert(t1);
-        allTerms = termDao.getAllTerms();
+        courseDao = termDatabase.courseDao();
+        assessmentDao = termDatabase.assessmentDao();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        allTerms = termDao.getAllTerms();
+        allCourses = courseDao.getAllCourses();
+        allAssessments = assessmentDao.getAllAssessments();
+    }
+
+    public LiveData<List<Term>> getAllTerms(){
+        TermDatabase.databaseExecutor.execute(()->{
+            allTerms=termDao.getAllTerms();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return allTerms;
+    }
+
+    public LiveData<List<Course>> getAllCourses(){
+        TermDatabase.databaseExecutor.execute(()->{
+            allCourses=courseDao.getAllCourses();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return allCourses;
+    }
+
+    public LiveData<List<Assessment>> getAllAssessments(){
+        TermDatabase.databaseExecutor.execute(()->{
+            allAssessments=assessmentDao.getAllAssessments();
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return allAssessments;
     }
 
     public void insert(Term term){
-        new InsertTermAsyncTask(termDao).execute(term);
+        TermDatabase.databaseExecutor.execute(()->termDao.insert(term));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void insert(Course course){
+        TermDatabase.databaseExecutor.execute(()->courseDao.insert(course));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void insert(Assessment assessment){
+        TermDatabase.databaseExecutor.execute(()->assessmentDao.insert(assessment));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Term term){
-        new UpdateTermAsyncTask(termDao).execute(term);
+        TermDatabase.databaseExecutor.execute(()->termDao.update(term));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(Course course){
+        TermDatabase.databaseExecutor.execute(()->courseDao.update(course));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(Assessment assessment){
+        TermDatabase.databaseExecutor.execute(()->assessmentDao.update(assessment));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
+
     public void delete(Term term){
-        new DeleteTermAsyncTask(termDao).execute(term);
+        TermDatabase.databaseExecutor.execute(()->termDao.delete(term));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void delete(Course course){
+        TermDatabase.databaseExecutor.execute(()->courseDao.delete(course));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void delete(Assessment assessment){
+        TermDatabase.databaseExecutor.execute(()->assessmentDao.delete(assessment));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAllTerms(){
         new DeleteAllTermsAsyncTask(termDao).execute();
     }
 
-    public LiveData<List<Term>> getAllTerms(){
-        return allTerms;
-    }
 
     /* starting the most confusing part */
     /* the most confusing part */

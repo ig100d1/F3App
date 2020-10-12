@@ -19,6 +19,9 @@ public class Assessment {
     }
 
     public Assessment(String title, String completionDate, int courseId, String status) {
+        ass_debug_counter = ass_debug_counter + 1;
+        Log.i("IGOR_DEBUG", "Assessment constructor started for obj # "
+                + ass_debug_counter);
         this.title = title;
         this.completionDate = completionDate;
         this.courseId = courseId;
@@ -59,6 +62,7 @@ public class Assessment {
     private String completionDate;
     private int courseId;
     private String status;
+    private static int ass_debug_counter = 0;
 
 }
 
