@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "course")
 public class Course {
+    public static final String TAG = "IgB:Course";
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
@@ -16,7 +17,7 @@ public class Course {
     private String mentorName;
     private String phone;
     private String email;
-    private int term;
+    private int termId;
 
     public int getId() {
         return id;
@@ -42,8 +43,8 @@ public class Course {
         this.email = email;
     }
 
-    public void setTerm(int term) {
-        this.term = term;
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 
     public String getMentorName() {
@@ -58,10 +59,6 @@ public class Course {
         return email;
     }
 
-    public int getTerm() {
-        return term;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -72,6 +69,10 @@ public class Course {
 
     public String getEndDate() {
         return endDate;
+    }
+
+    public int getTermId() {
+        return termId;
     }
 
     public void setId(int id) {
@@ -97,8 +98,8 @@ public class Course {
                   String mentorName,
                   String phone,
                   String email,
-                  int term) {
-        Log.i("IGOR_DEBUG", "Course constructor started");
+                  int termId) {
+        Log.i(TAG, "Course constructor started");
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -106,6 +107,7 @@ public class Course {
         this.mentorName = mentorName;
         this.phone = phone;
         this.email = email;
+        this.termId = termId;
 
     }
 }

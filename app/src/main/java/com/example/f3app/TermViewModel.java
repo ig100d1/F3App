@@ -13,13 +13,14 @@ public class TermViewModel extends AndroidViewModel {
 
     private TermRepository termRepository;
     private LiveData<List<Term>> allTerms;
+    private static final String TAG = "IgB:TermViewModel";
 
     public TermViewModel(@NonNull Application application) {
         super(application);
-        Log.i("IGOR_DEBUG", "started TermViewModel constructor");
+        Log.i(TAG, "started TermViewModel constructor");
         termRepository = new TermRepository(application);
         allTerms = termRepository.getAllTerms();
-        Log.i("IGOR_DEBUG", "finished TermViewModel constructor");
+        Log.i(TAG, "finished TermViewModel constructor");
 
     }
 
@@ -40,7 +41,7 @@ public class TermViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Term>> getAllTerms(){
-        Log.i("IGOR_DEBUG", "TermViewModel.getAllTemrms started");
+        Log.i(TAG, "TermViewModel.getAllTerms started");
         return allTerms;
     }
 

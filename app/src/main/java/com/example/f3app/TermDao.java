@@ -25,4 +25,7 @@ public interface TermDao {
 
     @Query("SELECT * FROM term ORDER BY startDate ASC")
     LiveData<List<Term>> getAllTerms();
+
+    @Query("SELECT * FROM term WHERE id = :term_id")
+    Term getTermById(int term_id);
 }

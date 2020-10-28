@@ -14,8 +14,20 @@ https://developer.android.com/guide/components/activities/activity-lifecycle.htm
 https://www.youtube.com/watch?v=reSPN7mgshI
 
 
+########################################################
+Vocabulary
 View+ViewModel+Model (VVMM)?
 
+1 Activity
+2 Adapter
+3 Callback
+4 Fragment
+5 Intent
+6 Listener
+7 View
+
+
+########################################################
 Context
 https://www.youtube.com/watch?v=-e6lyXIkIl0
  acitvity , application, service is subclasses of abstract class "Context"
@@ -59,7 +71,6 @@ https://www.youtube.com/watch?v=reSPN7mgshI
   notifyDataSetChanged()
   - recycler view adapater requires 3 methods override
   - ended with list of recycler view items not editable
-  
 
 
 Part 7
@@ -76,13 +87,25 @@ https://www.youtube.com/watch?v=RhGMd8SsA14
 Part 8
 https://www.youtube.com/watch?v=QJUCD32dzHE
   - deleting term +done
-  - deleting all terms !not done
-  - 
-  
+  - deleting all terms !not done (should not do this)
+  - learned about item touch helper ItemTouchHelper to swipe
+
+Part 9
+https://www.youtube.com/watch?v=dYbbTGiZ2sA
+  - update functionality
+  - complicated listners interface in the 
+  - onClickListener implementation for Item modification
+  - Highlited class name, Shift + F6 , changed name, enter
+       will change this name everywhere
+  -
+
 
 Repository
  - mediate between different data sources
 
 LiveData
 - any data changes got notified to View to refersh UI
+
+
+
 

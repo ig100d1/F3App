@@ -17,7 +17,9 @@ import java.util.List;
 
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterViewHolder> {
 
+    private static final String TAG = "IgB:TermAdapter";
     private List<Term> terms = new ArrayList<>();
+    private OnTermClickListener termListener;
 
 
     @NonNull
@@ -60,6 +62,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
     }
 
     public void setTerms(List<Term> terms){
+        Log.i(TAG, "setTerms got called <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         this.terms = terms;
         notifyDataSetChanged();
     }
@@ -68,7 +71,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
         private TextView termName;
         private TextView termStartDate;
         private TextView termEndDate;
-        ConstraintLayout mainLayout;
+        //ConstraintLayout mainLayout;
 
         public TermAdapterViewHolder(@NonNull View itemView){
             super(itemView);
@@ -76,9 +79,27 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
             termName = itemView.findViewById(R.id.text_view_name);
             termStartDate = itemView.findViewById(R.id.text_view_start_date);
             termEndDate = itemView.findViewById(R.id.text_view_end_date);
-            mainLayout = itemView.findViewById(R.id.mainLayout);
+            //mainLayout = itemView.findViewById(R.id.mainLayout);
             Log.i("IGOR_DEBUG", "started TermAdapterViewHolder constructor");
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(termListener != null && position != RecyclerView.NO_POSITION) {
+                        termListener.onItemClick(terms.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnTermClickListener{
+        void onItemClick(Term term);
+    }
+
+    public void setOnTermClickListener(OnTermClickListener listener){
+        this.termListener = listener;
     }
 }
 

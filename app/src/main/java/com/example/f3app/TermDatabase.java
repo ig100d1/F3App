@@ -16,8 +16,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // we need to change version and implement fallbackToDestructiveMigration to re-seed database
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 2)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 4)
 public abstract class TermDatabase extends RoomDatabase {
+    private static final String TAG = "IgB:TermDatabase";
     // this is to make sure we only can have single instance of this class
     private static volatile TermDatabase instance;
     // never gets increment
@@ -40,11 +41,11 @@ public abstract class TermDatabase extends RoomDatabase {
     public abstract AssessmentDao assessmentDao();
 
     public static synchronized TermDatabase getInstance(Context context) {
-        Log.i("IGOR_DEBUG", "TermDatabase.getInstance started");
+        Log.i(TAG, "TermDatabase.getInstance started");
         if (instance == null) {
             synchronized (TermDatabase.class) {
                 if (instance == null) {
-                    Log.i("IGOR_DEBUG", "TermDatabase.getInstance new instance init started");
+                    Log.i(TAG, "TermDatabase.getInstance new instance init started");
                     // there is a way how to push all queries into main thread
                     // now it is required to use AsyncTasks (deprecated)
                     instance = Room.databaseBuilder(context.getApplicationContext(),
@@ -57,7 +58,7 @@ public abstract class TermDatabase extends RoomDatabase {
                 }
             }
         }
-        Log.i("IGOR_DEBUG", "TermDatabase on_create_counter = " + on_create_counter);
+        Log.i(TAG, "TermDatabase on_create_counter = " + on_create_counter);
         return instance;
     }
 
@@ -66,7 +67,7 @@ public abstract class TermDatabase extends RoomDatabase {
         public void migrate(SupportSQLiteDatabase database) {
             //database.execSQL("ALTER TABLE Book "
             //        + " ADD COLUMN pub_year INTEGER");
-            Log.i("IGOR_DEBUG", "TermDatabase.migration 2 to 3 started");
+            Log.i(TAG, "TermDatabase.migration 2 to 3 started");
         }
     };
 
@@ -75,7 +76,7 @@ public abstract class TermDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             on_create_counter += 1;
-            Log.i("IGOR_DEBUG", "TermDatabase.roomCallback started  !!!!!!!!!!!!! ");
+            Log.i(TAG, "TermDatabase.roomCallback started  !!!!!!!!!!!!! ");
             databaseExecutor.execute(() -> reloadDatabase());
         }
 
@@ -86,7 +87,7 @@ public abstract class TermDatabase extends RoomDatabase {
         public void onDestructiveMigration(@NonNull SupportSQLiteDatabase db) {
             super.onDestructiveMigration(db);
             on_create_counter += 1;
-            Log.i("IGOR_DEBUG", "TermDatabase.roomCallbackRecreate started  !!!!!!!!!!!!! ");
+            Log.i(TAG, "TermDatabase.roomCallbackRecreate started  !!!!!!!!!!!!! ");
             databaseExecutor.execute(() -> reloadDatabase());
         }
     };
@@ -96,7 +97,7 @@ public abstract class TermDatabase extends RoomDatabase {
         CourseDao courseDao = instance.courseDao();
         AssessmentDao assessmentDao = instance.assessmentDao();
 
-        Log.i("IGOR_DEBUG", "TermDatabase.reloadDatabaseAsync started");
+        Log.i(TAG, "TermDatabase.reloadDatabaseAsync started");
         termDao.insert(new Term("Fall 2009", new String("2009-09-01"), new String("2009-12-15")));
         termDao.insert(new Term("Winter 2010", new String("2010-01-03"), new String("2010-03-12")));
         termDao.insert(new Term("Spring 2010", new String("2010-03-22"), new String("2010-05-29")));
@@ -127,28 +128,28 @@ public abstract class TermDatabase extends RoomDatabase {
         // Term 2
         courseDao.insert(new Course("mech2",
                 "2010-01-09", "2010-03-12", "completed",
-                "Roger Twister", "123-1234-12345", "profes1@school.edu", 1));
+                "Roger Twister", "123-1234-12345", "profes1@school.edu", 2));
 
         courseDao.insert(new Course("math2",
                 "2010-01-10", "2010-03-01", "failed",
-                "Anna Counter", "123-1234-12345", "pro1@school.edu", 1));
+                "Anna Counter", "123-1234-12345", "pro1@school.edu", 2));
 
         courseDao.insert(new Course("lang2",
                 "2010-01-09", "2010-03-02", "enjoyed",
-                "Ala Grama", "123-1234-12345", "rocks1@school.edu", 1));
+                "Ala Grama", "123-1234-12345", "rocks1@school.edu", 2));
 
         // Term 3
         courseDao.insert(new Course("mech3",
                 "2010-03-27", "2010-05-01", "completed",
-                "Roger Twister", "123-1234-12345", "profes1@school.edu", 1));
+                "Roger Twister", "123-1234-12345", "profes1@school.edu", 3));
 
         courseDao.insert(new Course("math3",
                 "2010-03-28", "2010-05-03", "failed",
-                "Anna Counter", "123-1234-12345", "pro1@school.edu", 1));
+                "Anna Counter", "123-1234-12345", "pro1@school.edu", 3));
 
         courseDao.insert(new Course("lang3",
                 "2010-03-29", "2010-05-02", "enjoyed",
-                "Ala Grama", "123-1234-12345", "rocks1@school.edu", 1));
+                "Ala Grama", "123-1234-12345", "rocks1@school.edu", 3));
 
     }
 

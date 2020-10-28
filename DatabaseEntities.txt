@@ -1,0 +1,11 @@
+Term
+Courses
+Assessment
+
+
+how it is done in bicycle shop?
+
+instead of AsyncTask use java.util.concurrent
+  https://developer.android.com/reference/android/os/AsyncTask
+
+java volitile is visible across threads

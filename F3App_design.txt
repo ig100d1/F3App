@@ -5,3 +5,34 @@ StartDate
 EndDate
 
 - 
+
+
+todo:
+ Edit Course > Safe function
+
+2020-10-25 SUN
+ - 15:41 troublesshooting CourseActivity "Safe" menu option. When "Safe" executed, intent for AddEditTermActivity.class should start.
+  Observartion: addEditTermActivity does starts in logs, but how come no changes in the app?
+
+  Going to pack some debuging information and see how it travels.
+  AddModifyCourseActivity.onOptionsItemSelected is not implemented
+
+
+        if (intent.hasExtra(TERM_TITLE)
+                && intent.hasExtra(TERM_START_DATE)
+                && intent.hasExtra(TERM_END_DATE)) {
+            term_title = intent.getStringExtra(TERM_TITLE);
+            term_start_date = intent.getStringExtra(TERM_START_DATE);
+            term_end_date = intent.getStringExtra(TERM_END_DATE);
+        }else{
+            TermRepository tR =  new TermRepository(courseViewModel.getApplication());
+            Term term = tR.getTermById(term_id);
+            term_title = term.getTitle();
+            term_start_date = term.getStartDate();
+            term_end_date = term.getEndDate();
+        }
+
+  
+
+
+

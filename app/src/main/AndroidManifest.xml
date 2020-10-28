@@ -9,16 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddTermActivity"
-            android:parentActivityName=".Main2Activity" >
-        </activity>
+        <activity android:name=".AddModifyCourseActivity"
+            android:parentActivityName=".CourseActivity" />
+            />
         <activity
-            android:name=".TermActivity"
-            android:label="TermDetails"
-            android:parentActivityName=".Main2Activity"></activity>
-        <activity android:name=".Main2Activity" android:launchMode="singleTop">
+            android:name=".CourseActivity"
+            android:parentActivityName=".AddEditTermActivity" />
+        <activity
+            android:name=".AddEditTermActivity"
+            android:parentActivityName=".Main2Activity" />
+        <activity
+            android:name=".Main2Activity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

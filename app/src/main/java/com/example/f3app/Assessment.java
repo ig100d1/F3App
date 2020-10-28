@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "assessment")
 public class Assessment {
+    public static final String TAG = "IgB:Assessment";
     public int getId() {
         return id;
     }
@@ -20,7 +21,7 @@ public class Assessment {
 
     public Assessment(String title, String completionDate, int courseId, String status) {
         ass_debug_counter = ass_debug_counter + 1;
-        Log.i("IGOR_DEBUG", "Assessment constructor started for obj # "
+        Log.i(TAG, "Assessment constructor started for obj # "
                 + ass_debug_counter);
         this.title = title;
         this.completionDate = completionDate;

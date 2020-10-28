@@ -1,18 +1,20 @@
 package com.example.f3app;
 
-
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
 public class TermRepository {
+    private static final String TAG = "IgB:TermRepository";
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
     private LiveData<List<Term>> allTerms;
+    private Term term;
     private LiveData<List<Course>> allCourses;
     private LiveData<List<Assessment>> allAssessments;
 
@@ -30,8 +32,6 @@ public class TermRepository {
         }
 
         allTerms = termDao.getAllTerms();
-        allCourses = courseDao.getAllCourses();
-        allAssessments = assessmentDao.getAllAssessments();
     }
 
     public LiveData<List<Term>> getAllTerms(){
@@ -46,15 +46,28 @@ public class TermRepository {
         return allTerms;
     }
 
-    public LiveData<List<Course>> getAllCourses(){
+    public Term getTermById(int id) {
         TermDatabase.databaseExecutor.execute(()->{
-            allCourses=courseDao.getAllCourses();
+            term = termDao.getTermById(id);
         });
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return term;
+    }
+
+    public LiveData<List<Course>> getAllCourses(int term_id){
+        TermDatabase.databaseExecutor.execute(()->{
+            allCourses=courseDao.getAllCourses(term_id);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "got all courses executed");
         return allCourses;
     }
 
@@ -78,6 +91,7 @@ public class TermRepository {
             e.printStackTrace();
         }
     }
+
     public void insert(Course course){
         TermDatabase.databaseExecutor.execute(()->courseDao.insert(course));
         try {
@@ -111,6 +125,7 @@ public class TermRepository {
             e.printStackTrace();
         }
     }
+
     public void update(Assessment assessment){
         TermDatabase.databaseExecutor.execute(()->assessmentDao.update(assessment));
         try {
@@ -146,14 +161,35 @@ public class TermRepository {
         }
     }
 
-    public void deleteAllTerms(){
-        new DeleteAllTermsAsyncTask(termDao).execute();
+    public void deleteAllTerms() {
+        TermDatabase.databaseExecutor.execute(()->termDao.deleteAllTerms());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteAllCourses(){
+        TermDatabase.databaseExecutor.execute(()->courseDao.deleteAllCourses());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteAllAssessments(){
+        TermDatabase.databaseExecutor.execute(()->assessmentDao.deleteAllAssessments());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    /* starting the most confusing part */
-    /* the most confusing part */
-    /* it si the most confusing part */
+
+
+    /* not using this anymore !!! */
     private static class InsertTermAsyncTask extends AsyncTask<Term , Void, Void > {
         private TermDao termDao;
         private InsertTermAsyncTask(TermDao termDao_){
@@ -199,9 +235,4 @@ public class TermRepository {
             return null;
         }
     }
-    /*
-    TODO: End Of Very Confusing AsyncTask Part that need to be looked up later
-     */
-
-
 }
