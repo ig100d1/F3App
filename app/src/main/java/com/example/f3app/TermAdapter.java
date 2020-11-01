@@ -68,6 +68,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
     }
 
     public class TermAdapterViewHolder extends RecyclerView.ViewHolder{
+        private static final String TAG = "IgB:TermAdapterViewHol";
         private TextView termName;
         private TextView termStartDate;
         private TextView termEndDate;
@@ -75,12 +76,12 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermAdapterVie
 
         public TermAdapterViewHolder(@NonNull View itemView){
             super(itemView);
-            Log.i("IGOR_DEBUG", "started TermAdapterViewHolder constructor");
+            Log.i(TAG, "started TermAdapterViewHolder constructor");
             termName = itemView.findViewById(R.id.text_view_name);
             termStartDate = itemView.findViewById(R.id.text_view_start_date);
             termEndDate = itemView.findViewById(R.id.text_view_end_date);
             //mainLayout = itemView.findViewById(R.id.mainLayout);
-            Log.i("IGOR_DEBUG", "started TermAdapterViewHolder constructor");
+            Log.i(TAG, "started TermAdapterViewHolder constructor");
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

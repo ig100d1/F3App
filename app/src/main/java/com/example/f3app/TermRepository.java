@@ -13,10 +13,12 @@ public class TermRepository {
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
+    private NoteDao noteDao;
     private LiveData<List<Term>> allTerms;
     private Term term;
     private LiveData<List<Course>> allCourses;
     private LiveData<List<Assessment>> allAssessments;
+    private LiveData<List<Note>> allNotes;
 
     // constructor
     public TermRepository(Application application) {
@@ -24,6 +26,7 @@ public class TermRepository {
         termDao = termDatabase.termDao();
         courseDao = termDatabase.courseDao();
         assessmentDao = termDatabase.assessmentDao();
+        noteDao = termDatabase.noteDao();
 
         try {
             Thread.sleep(1000);
@@ -71,9 +74,9 @@ public class TermRepository {
         return allCourses;
     }
 
-    public LiveData<List<Assessment>> getAllAssessments(){
+    public LiveData<List<Assessment>> getAllAssessments(int course_id){
         TermDatabase.databaseExecutor.execute(()->{
-            allAssessments=assessmentDao.getAllAssessments();
+            allAssessments=assessmentDao.getAllAssessments(course_id);
         });
         try {
             Thread.sleep(1000);
@@ -81,6 +84,18 @@ public class TermRepository {
             e.printStackTrace();
         }
         return allAssessments;
+    }
+
+    public LiveData<List<Note>> getAllNotes(int course_id){
+        TermDatabase.databaseExecutor.execute(()->{
+            allNotes=noteDao.getAllNotes(course_id);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return allNotes;
     }
 
     public void insert(Term term){
@@ -102,6 +117,14 @@ public class TermRepository {
     }
     public void insert(Assessment assessment){
         TermDatabase.databaseExecutor.execute(()->assessmentDao.insert(assessment));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void insert(Note note){
+        TermDatabase.databaseExecutor.execute(()->noteDao.insert(note));
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -135,6 +158,14 @@ public class TermRepository {
         }
     }
 
+    public void update(Note note){
+        TermDatabase.databaseExecutor.execute(()->noteDao.update(note));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void delete(Term term){
         TermDatabase.databaseExecutor.execute(()->termDao.delete(term));
@@ -152,6 +183,7 @@ public class TermRepository {
             e.printStackTrace();
         }
     }
+
     public void delete(Assessment assessment){
         TermDatabase.databaseExecutor.execute(()->assessmentDao.delete(assessment));
         try {
@@ -160,6 +192,16 @@ public class TermRepository {
             e.printStackTrace();
         }
     }
+
+    public void delete(Note note){
+        TermDatabase.databaseExecutor.execute(()->noteDao.delete(note));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void deleteAllTerms() {
         TermDatabase.databaseExecutor.execute(()->termDao.deleteAllTerms());
@@ -177,6 +219,7 @@ public class TermRepository {
             e.printStackTrace();
         }
     }
+
     public void deleteAllAssessments(){
         TermDatabase.databaseExecutor.execute(()->assessmentDao.deleteAllAssessments());
         try {
@@ -186,6 +229,14 @@ public class TermRepository {
         }
     }
 
+    public void deleteAllNotes(){
+        TermDatabase.databaseExecutor.execute(()->noteDao.deleteAllNotes());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

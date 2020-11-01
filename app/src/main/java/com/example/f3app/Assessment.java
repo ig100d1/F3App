@@ -15,18 +15,19 @@ public class Assessment {
         return title;
     }
 
-    public String getCompletionDate() {
-        return completionDate;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public Assessment(String title, String completionDate, int courseId, String status) {
+    public Assessment(String title, String dueDate, int courseId, String status, String type) {
         ass_debug_counter = ass_debug_counter + 1;
         Log.i(TAG, "Assessment constructor started for obj # "
                 + ass_debug_counter);
         this.title = title;
-        this.completionDate = completionDate;
+        this.dueDate = dueDate;
         this.courseId = courseId;
         this.status = status;
+        this.type = type;
     }
 
     public int getCourseId() {
@@ -34,6 +35,10 @@ public class Assessment {
     }
 
     public String getStatus() {
+        return status;
+    }
+
+    public String getType() {
         return status;
     }
 
@@ -45,8 +50,8 @@ public class Assessment {
         this.title = title;
     }
 
-    public void setCompletionDate(String completionDate) {
-        this.completionDate = completionDate;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setCourseId(int courseId) {
@@ -57,12 +62,17 @@ public class Assessment {
         this.status = status;
     }
 
+    public void setType(String status) {
+        this.type = type;
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
-    private String completionDate;
+    private String dueDate;
     private int courseId;
     private String status;
+    private String type;
     private static int ass_debug_counter = 0;
 
 }

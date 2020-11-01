@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    android:visibility="visible"
-    tools:context=".AddEditTermActivity">
+    tools:context=".AddModifyAssessmentActivity">
 
     <EditText
-        android:id="@+id/add_term_title"
+        android:id="@+id/assessment_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -18,14 +17,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:hint="Term Title"
+        android:hint="Title"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/add_term_start_date"
+        android:id="@+id/assessment_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -33,18 +32,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:editable="false"
-        android:onClick="showDatePickerDialogForStartDate"
-        android:hint="Start Date"
+        android:hint="type"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_term_title" />
+        app:layout_constraintTop_toBottomOf="@+id/assessment_title" />
 
     <EditText
-        android:id="@+id/add_term_end_date"
-        android:editable="false"
-        android:onClick="showDatePickerDialogForEndDate"
+        android:id="@+id/assessment_due_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -52,24 +47,28 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:hint="End Date"
+        android:hint="yyyy-mm-dd"
+        android:inputType="text"
+        android:onClick="showDatePickerDialogForDueDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assessment_type" />
+
+    <EditText
+        android:id="@+id/assessment_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:editable="false"
+        android:hint="status"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_term_start_date" />
-
-
-    <Button
-        android:id="@+id/button_show_courses"
-        android:layout_width="224dp"
-        android:layout_height="44dp"
-        android:text="Show Courses"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_term_end_date"
+        app:layout_constraintTop_toBottomOf="@+id/assessment_due_date"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

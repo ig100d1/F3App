@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "term")
 public class Term {
+    private static final String TAG = "IgB:Term";
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
@@ -47,7 +48,7 @@ public class Term {
     }
 
     public Term(String title, String startDate, String endDate) {
-        Log.i("IGOR_DEBUG", "Term constructor started");
+        Log.i(TAG, "Term constructor started");
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;

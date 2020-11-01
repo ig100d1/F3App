@@ -9,15 +9,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <activity android:name=".AddModifyNoteActivity"
+            android:parentActivityName=".NoteActivity" />
+
+        <activity
+            android:name=".NoteActivity"
+            android:parentActivityName=".AddModifyCourseActivity" />
+
+        <activity android:name=".AddModifyAssessmentActivity"
+            android:parentActivityName=".AssessmentActivity" />
+
+        <activity
+            android:name=".AssessmentActivity"
+            android:parentActivityName=".AddModifyCourseActivity" />
+
         <activity android:name=".AddModifyCourseActivity"
             android:parentActivityName=".CourseActivity" />
-            />
+
         <activity
             android:name=".CourseActivity"
             android:parentActivityName=".AddEditTermActivity" />
+
         <activity
             android:name=".AddEditTermActivity"
             android:parentActivityName=".Main2Activity" />
+
         <activity
             android:name=".Main2Activity"
             android:launchMode="singleTop">

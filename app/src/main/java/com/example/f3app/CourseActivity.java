@@ -13,8 +13,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import static com.example.f3app.AddEditTermActivity.TERM_END_DATE;
 import static com.example.f3app.AddEditTermActivity.TERM_ID;
 import static com.example.f3app.AddEditTermActivity.TERM_START_DATE;
 import static com.example.f3app.AddEditTermActivity.TERM_TITLE;
+import static com.example.f3app.AddEditTermActivity.CREATE_FAILED;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -41,13 +45,13 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "started main activity");
+        Log.i(TAG, "started onCreate");
 
         Intent intent = getIntent();
 
         // should always have
         if (! intent.hasExtra(TERM_ID) || ! intent.hasExtra(TERM_TITLE)){
-            Log.i(TAG, "OnCreate - missing term info");
+            Log.e(TAG, "OnCreate - missing term info");
             Toast.makeText(this,"missing term info",Toast.LENGTH_LONG).show();
             return;
         }
@@ -59,6 +63,8 @@ public class CourseActivity extends AppCompatActivity {
             Toast.makeText(this,"missing term id",Toast.LENGTH_LONG).show();
             return;
         }
+
+        setTitle("Courses");
 
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
         setContentView(R.layout.activity_course);
@@ -100,6 +106,8 @@ public class CourseActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(mRecyclerView);
 
+        Log.i(TAG, "onCreate onSwiped listeners up");
+
         //magic
         courseAdapter.setOnCourseClickListener(new CourseAdapter.OnCourseClickListener() {
             @Override
@@ -119,6 +127,28 @@ public class CourseActivity extends AppCompatActivity {
             }
         });
 
+        Log.i(TAG, "onCreate onClick listeners up");
+
+        FloatingActionButton buttonAddCourse = findViewById(R.id.button_add_course);
+        if (buttonAddCourse== null){
+            Log.e(TAG, "onCreate failed to init floatingActionButton");
+            newIntent = new Intent(this, AddEditTermActivity.class);
+            packTermIntent();
+            setResult(CREATE_FAILED, newIntent);
+            finish();
+            return;
+        }
+        Log.d(TAG, "addCourse listener started");
+
+        buttonAddCourse.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Log.i(TAG, "started buttonAddCourse onClick method");
+                newIntent= new Intent(CourseActivity.this, AddModifyCourseActivity.class );
+                packTermIntent();
+                startActivityForResult(newIntent,ADD_COURSE_REQUEST);
+            }
+        });
+
         Log.i(TAG, "created courseViewModel");
     }
 
@@ -134,14 +164,13 @@ public class CourseActivity extends AppCompatActivity {
                 Log.i(TAG, "onOptionsItemSelected method started for HOME");
                 newIntent = new Intent(this, AddEditTermActivity.class);
                 packTermIntent();
-                newIntent.putExtra("IGOR_DEBUG","Came from CourseActivity.onOptionsItemSelected.Home");
-                startActivity(newIntent);
+                setResult(RESULT_CANCELED, newIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data ) {
@@ -192,7 +221,6 @@ public class CourseActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void packTermIntent(){
         Log.i(TAG, "packTermIntent called for term title: "

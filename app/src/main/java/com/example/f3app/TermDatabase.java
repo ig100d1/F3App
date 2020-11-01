@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // we need to change version and implement fallbackToDestructiveMigration to re-seed database
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 4)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 6)
 public abstract class TermDatabase extends RoomDatabase {
     private static final String TAG = "IgB:TermDatabase";
     // this is to make sure we only can have single instance of this class
@@ -34,11 +34,12 @@ public abstract class TermDatabase extends RoomDatabase {
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     // we dont have to create body because room will take care of the code
-    // returns our TermDao,CourseDao,AssessmentDao interface
+    // returns our TermDao,CourseDao,AssessmentDao,NoteDao interface
     // termDao only used to seed database, does not need for TermData
     public abstract TermDao termDao();
     public abstract CourseDao courseDao();
     public abstract AssessmentDao assessmentDao();
+    public abstract NoteDao noteDao();
 
     public static synchronized TermDatabase getInstance(Context context) {
         Log.i(TAG, "TermDatabase.getInstance started");
@@ -96,6 +97,7 @@ public abstract class TermDatabase extends RoomDatabase {
         TermDao termDao = instance.termDao();
         CourseDao courseDao = instance.courseDao();
         AssessmentDao assessmentDao = instance.assessmentDao();
+        NoteDao noteDao = instance.noteDao();
 
         Log.i(TAG, "TermDatabase.reloadDatabaseAsync started");
         termDao.insert(new Term("Fall 2009", new String("2009-09-01"), new String("2009-12-15")));
@@ -115,10 +117,14 @@ public abstract class TermDatabase extends RoomDatabase {
         courseDao.insert(new Course("mech1",
                 "2009-09-01", "2009-12-15", "completed",
                 "Roger Twister", "123-1234-12345", "profes1@school.edu", 1));
+        assessmentDao.insert(new Assessment("ass1", "2009-09-01", 1, "success", "performance"));
+        assessmentDao.insert(new Assessment("ass2", "2009-09-02", 1, "success", "objectives"));
+        noteDao.insert(new Note(1, "dont forget about it when doing mech1 "));
 
         courseDao.insert(new Course("math1",
                 "2009-09-01", "2009-12-15", "failed",
                 "Anna Counter", "123-1234-12345", "pro1@school.edu", 1));
+        assessmentDao.insert(new Assessment("mass1", "2009-12-15", 2, "pending", "performance"));
 
         courseDao.insert(new Course("lang1",
                 "2009-09-01", "2009-12-15", "enjoyed",

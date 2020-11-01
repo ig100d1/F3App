@@ -12,14 +12,15 @@ import java.util.List;
 
 public class CourseViewModel extends AndroidViewModel {
 
+    private static final String TAG = "IgB:CourseViewModel";
     private TermRepository coursesRepository;
     private LiveData<List<Course>> allCourses;
 
     public CourseViewModel(@NonNull Application application) {
         super(application);
-        Log.i("IGOR_DEBUG", "started CourseViewModel constructor");
+        Log.i(TAG, "started CourseViewModel constructor");
         coursesRepository = new TermRepository(application);
-        Log.i("IGOR_DEBUG", "finished CourseViewModel constructor");
+        Log.i(TAG, "finished CourseViewModel constructor");
     }
 
     public void insert(Course course){
@@ -39,7 +40,7 @@ public class CourseViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Course>> getAllCourses(int term_id){
-        Log.i("IGOR_DEBUG", "CourseViewModel.getAllCourses started");
+        Log.i(TAG, "CourseViewModel.getAllCourses started");
         return coursesRepository.getAllCourses(term_id);
     }
 

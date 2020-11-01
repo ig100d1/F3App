@@ -57,7 +57,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseAdap
 
     public class CourseAdapterViewHolder extends RecyclerView.ViewHolder{
 
-        private static final String TAG = "IGOR:CourseAdapterVH";
+        private static final String TAG = "IgB:CourseAdapterVewHol";
         private TextView courseName;
         private TextView courseStartDate;
         private TextView courseEndDate;

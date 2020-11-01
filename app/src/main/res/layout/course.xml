@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:text="term name"
+            android:text="course name"
             android:maxLines="2"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"></TextView>
