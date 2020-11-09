@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // we need to change version and implement fallbackToDestructiveMigration to re-seed database
-@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 6)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 9)
 public abstract class TermDatabase extends RoomDatabase {
     private static final String TAG = "IgB:TermDatabase";
     // this is to make sure we only can have single instance of this class

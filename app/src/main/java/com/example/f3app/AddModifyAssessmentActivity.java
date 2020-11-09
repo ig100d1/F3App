@@ -14,8 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import static com.example.f3app.AddEditTermActivity.TERM_END_DATE;
@@ -36,17 +39,18 @@ import static com.example.f3app.AddModifyCourseActivity.COURSE_EMAIL;
 
 
 public class AddModifyAssessmentActivity extends AppCompatActivity
-        implements ActivityWithDates {
+        implements ActivityWithDates, AdapterView.OnItemSelectedListener {
     public static final String TAG = "IgB:AddModifyAssesActi";
 
     private EditText editTextAssessmentTitle;
     private EditText editTextAssessmentDueDate;
     private EditText editTextAssessmentStatus;
-    private EditText editTextAssessmentType;
+    private Spinner spinnerAssessmentType;
 
     private int courseId;
     private int termId;
     private Intent newIntent;
+    private String assessmentType = "objective";
 
     public static final int SHOW_ASSESSMENTS_REQUEST = 1;
 
@@ -73,38 +77,54 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
             return;
         }
 
+        if (! intent.hasExtra(COURSE_START_DATE)) {
+            Log.e(TAG, "OnCreate - missing course start date");
+            Toast.makeText(this,"missing course start date",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (! intent.hasExtra(COURSE_END_DATE)) {
+            Log.e(TAG, "OnCreate - missing course start date");
+            Toast.makeText(this,"missing course end date",Toast.LENGTH_LONG).show();
+            return;
+        }
         Log.i(TAG, "onCreate started for course id: " + courseId);
 
         setContentView(R.layout.activity_add_modify_assessment);
         editTextAssessmentTitle = findViewById(R.id.assessment_title);
         editTextAssessmentDueDate = findViewById(R.id.assessment_due_date);
         editTextAssessmentStatus= findViewById(R.id.assessment_status);
-        editTextAssessmentType = findViewById(R.id.assessment_type);
+        spinnerAssessmentType = (Spinner) findViewById(R.id.assessment_type);
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,
+                R.array.assessment_types_array, android.R.layout.simple_spinner_dropdown_item);
+        spinnerAssessmentType.setAdapter(adapterSpinner);
+        spinnerAssessmentType.setOnItemSelectedListener(this);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_blue_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-        if ( getIntent().hasExtra(ASSESSMENT_ID) ){
+        if ( intent.hasExtra(ASSESSMENT_ID) ){
             // set assessment Id only when we want to updated existing assessment
             setTitle("Edit Assessment");
             editTextAssessmentTitle.setText(intent.getStringExtra(ASSESSMENT_TITLE));
             editTextAssessmentDueDate.setText(intent.getStringExtra(ASSESSMENT_DUE_DATE));
             editTextAssessmentStatus.setText(intent.getStringExtra(ASSESSMENT_STATUS));
-            editTextAssessmentType.setText(intent.getStringExtra(ASSESSMENT_TYPE));
+            assessmentType = intent.getStringExtra(ASSESSMENT_TYPE);
+            spinnerAssessmentType.setSelection(adapterSpinner.getPosition(assessmentType));
+            Log.d(TAG, "onCreate, editAssessment, got type from parent : " + assessmentType);
 
         }else {
             setTitle("Add Assessment");
         }
+
     }
 
     public void showDatePickerDialogForDueDate(View v) {
         DialogFragment newFragment ;
         String currentDate = null;
         try {
-            if(getIntent().hasExtra(AddModifyAssessmentActivity.ASSESSMENT_DUE_DATE)){
-                currentDate = getIntent().getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_DUE_DATE);
+            if(getIntent().hasExtra(ASSESSMENT_DUE_DATE)){
+                currentDate = getIntent().getStringExtra(ASSESSMENT_DUE_DATE);
             }
             newFragment = new DatePickerFragment(currentDate,
                     getIntent().getStringExtra(COURSE_START_DATE),
@@ -131,7 +151,6 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         String assessmentTitle = editTextAssessmentTitle.getText().toString();
         String assessmentDueDate = editTextAssessmentDueDate.getText().toString();
         String assessmentStatus = editTextAssessmentStatus.getText().toString();
-        String assessmentType = editTextAssessmentType.getText().toString();
 
         if ( assessmentTitle.trim().isEmpty() ) {
             Log.e(TAG, "saveAssessment title is missing");
@@ -163,6 +182,7 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         newIntent.putExtra(ASSESSMENT_TITLE, assessmentTitle);
         newIntent.putExtra(ASSESSMENT_DUE_DATE, assessmentDueDate);
         newIntent.putExtra(ASSESSMENT_STATUS, assessmentStatus);
+        Log.d(TAG, "saveAssessment saving type as : " + assessmentType);
         newIntent.putExtra(ASSESSMENT_TYPE, assessmentType);
 
         // -1 is for no id, when addAssessment
@@ -243,6 +263,19 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         newIntent.putExtra(COURSE_MENTOR,getIntent().getStringExtra(COURSE_MENTOR));
         newIntent.putExtra(COURSE_PHONE,getIntent().getStringExtra(COURSE_PHONE));
         newIntent.putExtra(COURSE_EMAIL,getIntent().getStringExtra(COURSE_EMAIL));
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        Log.d(TAG, "onItemSelected for Spinner started");
+        assessmentType = parent.getItemAtPosition(pos).toString();
+        Log.d(TAG, "onItemSelected for Spinner set assessmentType to " + assessmentType);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
 }

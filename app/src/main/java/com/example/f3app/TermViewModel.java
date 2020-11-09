@@ -14,6 +14,7 @@ public class TermViewModel extends AndroidViewModel {
     private TermRepository termRepository;
     private LiveData<List<Term>> allTerms;
     private static final String TAG = "IgB:TermViewModel";
+    public static final int QUERY_EXEC_NOT_COMPLETED = -1;
 
     public TermViewModel(@NonNull Application application) {
         super(application);
@@ -32,8 +33,16 @@ public class TermViewModel extends AndroidViewModel {
         termRepository.update(term);
     }
 
-    public void delete(Term term){
-        termRepository.delete(term);
+    public int delete(Term term){
+       Log.d(TAG, "delete term " + term.getTitle());
+       int countCourses = QUERY_EXEC_NOT_COMPLETED ;
+       countCourses = termRepository.countTermCourses(term);
+       Log.d(TAG, "delete term count courses returned: " + countCourses);
+       if (countCourses == 0 ){
+           Log.d(TAG, "delete term " + term.getTitle() + " don't have any courses, continue");
+           termRepository.delete(term);
+       }
+       return countCourses;
     }
 
     public void deleteAllTerms(){

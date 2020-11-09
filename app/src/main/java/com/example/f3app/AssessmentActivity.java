@@ -39,6 +39,7 @@ import static com.example.f3app.AddModifyCourseActivity.COURSE_EMAIL;
 public class AssessmentActivity extends AppCompatActivity {
 
     private AssessmentViewModel assessmentViewModel;
+    private static final int MAX_COURSE_ASSESSMENTS = 5;
     RecyclerView mRecyclerView;
     private static final String TAG = "IgB:AssessmentActivity";
     private int term_id;
@@ -145,7 +146,7 @@ public class AssessmentActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate onClick listeners up");
 
         FloatingActionButton buttonAddAssessment = findViewById(R.id.button_add_note);
-        if (buttonAddAssessment== null){
+        if (buttonAddAssessment == null){
             Log.e(TAG, "onCreate failed to init floatingActionButton");
             newIntent = new Intent(this, AddEditTermActivity.class);
             packTermIntent();
@@ -158,11 +159,17 @@ public class AssessmentActivity extends AppCompatActivity {
 
         buttonAddAssessment.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Log.i(TAG, "started buttonAddAssessment onClick method");
-                newIntent= new Intent(AssessmentActivity.this, AddModifyAssessmentActivity.class );
-                packTermIntent();
-                packCourseIntent();
-                startActivityForResult(newIntent,ADD_ASSESSMENT_REQUEST);
+                Log.d(TAG, "buttonAddAssessment.setOnClickListneer started for course: " + course_id);
+                int countCourseAssessments = assessmentViewModel.countCourseAssessments(course_id);
+                if (countCourseAssessments < MAX_COURSE_ASSESSMENTS) {
+                    Log.i(TAG, "started buttonAddAssessment onClick method");
+                    newIntent = new Intent(AssessmentActivity.this, AddModifyAssessmentActivity.class);
+                    packTermIntent();
+                    packCourseIntent();
+                    startActivityForResult(newIntent, ADD_ASSESSMENT_REQUEST);
+                }else{
+                    Toast.makeText(v.getContext(),"cant add more assessments", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

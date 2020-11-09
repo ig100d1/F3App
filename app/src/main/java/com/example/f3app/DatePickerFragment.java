@@ -27,7 +27,11 @@ public class DatePickerFragment extends DialogFragment
 
     public DatePickerFragment(String strCurrentDate, String strMinDate, String strMaxDate) throws java.text.ParseException {
         super();
-        currentDate = new SimpleDateFormat("yyyy-MM-dd").parse(strCurrentDate);
+        if (strCurrentDate!=null) {
+            Log.d(TAG, "DatePickerFragment constructor set currentDate(str): " + strCurrentDate);
+            currentDate = new SimpleDateFormat("yyyy-MM-dd").parse(strCurrentDate);
+            Log.d(TAG, "DatePickerFragment constructor set currentDate(date): " + currentDate.toString());
+        }
         minDate = new SimpleDateFormat("yyyy-MM-dd").parse(strMinDate);
         maxDate = new SimpleDateFormat("yyyy-MM-dd").parse(strMaxDate);
 
@@ -47,7 +51,9 @@ public class DatePickerFragment extends DialogFragment
 
     public DatePickerFragment currentDate(String strCurrentDate) throws java.text.ParseException{
         if(strCurrentDate!=null) {
-            this.currentDate = new SimpleDateFormat("yyyy-MM-dd").parse(strCurrentDate);
+            Log.d(TAG, "DatePickerFragment constructor set currentDate(str): " + strCurrentDate);
+            currentDate = new SimpleDateFormat("yyyy-MM-dd").parse(strCurrentDate);
+            Log.d(TAG, "DatePickerFragment constructor set currentDate(date): " + currentDate.toString());
         }
 
         return this;
@@ -59,24 +65,36 @@ public class DatePickerFragment extends DialogFragment
         int day;
         int month;
         if (currentDate != null) {
-            year = currentDate.getYear();
+            Log.d(TAG, "onCreateDialog - using currentDate for calendar");
+            year = currentDate.getYear() + 1900;
             month = currentDate.getMonth();
-            day = currentDate.getDay();
-        } else if ( minDate != null && maxDate != null){
-        year = minDate.getYear();
+            day = currentDate.getDate();
+        }
+        else if ( minDate != null ) {
+            Log.d(TAG, "onCreateDialog - using minDate for calendar");
+        year = minDate.getYear() + 1900;
         month = minDate.getMonth();
-        day = minDate.getDay();
-
-        }else{
+        day = minDate.getDate();
+        }
+        else if ( maxDate != null ) {
+            Log.d(TAG, "onCreateDialog - using maxDate for calendar");
+            year = maxDate.getYear() +1900;
+            month = maxDate.getMonth();
+            day = maxDate.getDate();
+        }
+        else{
+            Log.d(TAG, "onCreateDialog - using now() for calendar");
             final Calendar c = Calendar.getInstance();
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
             day = c.get(Calendar.DAY_OF_MONTH);
         }
 
-
+        Log.d(TAG, "onCreateDialog - starting DatePicker with y-m-d: " + year + "-" + month + "-" + day);
         DatePickerDialog dp =  new DatePickerDialog(getActivity(), this, year, month, day);
         if ( minDate != null && maxDate != null){
+            Log.d(TAG, "onCreateDialog set minDate : " + minDate.toString() +
+                    " and maxDate: " + maxDate.toString() );
             dp.getDatePicker().setMinDate(minDate.getTime());
             dp.getDatePicker().setMaxDate(maxDate.getTime());
         }
@@ -87,11 +105,11 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        Log.i(TAG, "onDateSet called with values y0/m0/d0: " + year + "/" + month + "/" + day);
+        Log.i(TAG, "onDateSet called with values y0-m0-d0: " + year + "-" + month + "-" + day);
         this.year = view.getYear();
-        this.month = view.getMonth();
+        this.month = view.getMonth()+1;
         this.day = view.getDayOfMonth();
-        Log.i(TAG, "onDateSet exiting with value y1/m1/d1: " + this.year + "/" + this.month + "/" + this.day);
+        Log.i(TAG, "onDateSet exiting with value y1-m1-d1: " + this.year + "-" + this.month + "-" + this.day);
     }
 
 

@@ -28,4 +28,7 @@ public interface TermDao {
 
     @Query("SELECT * FROM term WHERE id = :term_id")
     Term getTermById(int term_id);
+
+    @Query("SELECT COUNT(*) FROM course WHERE termId = :term_id")
+    int countTermCourses(int term_id);
 }

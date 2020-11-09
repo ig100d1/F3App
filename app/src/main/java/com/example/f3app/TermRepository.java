@@ -10,6 +10,8 @@ import java.util.List;
 
 public class TermRepository {
     private static final String TAG = "IgB:TermRepository";
+    private int countTermCourses = -1;
+    private int countCourseAssessments = -1;
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
@@ -96,6 +98,34 @@ public class TermRepository {
             e.printStackTrace();
         }
         return allNotes;
+    }
+
+    public int countTermCourses(Term term){
+        Log.d(TAG, "countTermCourses - started");
+        countTermCourses = -1;
+        TermDatabase.databaseExecutor.execute(()->{
+            countTermCourses = termDao.countTermCourses(term.getId());
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return countTermCourses;
+    }
+
+    public int countCourseAssessments(int course_id){
+        Log.d(TAG, "countCourseAssessments - started");
+        countCourseAssessments = -1;
+        TermDatabase.databaseExecutor.execute(()->{
+            countCourseAssessments = assessmentDao.countCourseAssessments(course_id);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return countCourseAssessments;
     }
 
     public void insert(Term term){

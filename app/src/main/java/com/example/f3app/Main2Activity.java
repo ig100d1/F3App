@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import static com.example.f3app.TermViewModel.QUERY_EXEC_NOT_COMPLETED;
 
 import java.util.List;
 
@@ -77,8 +78,15 @@ public class Main2Activity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                termViewModel.delete(termAdapter.getTermAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(Main2Activity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+                int deleteStatus = termViewModel.delete(termAdapter.getTermAt(viewHolder.getAdapterPosition()));
+                Log.d(TAG, "onSwiped - got deleteStatus : " + deleteStatus);
+                if (deleteStatus == 0) {
+                    Log.d(TAG, "onSwiped - delete success");
+                   Toast.makeText(Main2Activity.this, "Term Deleted", Toast.LENGTH_LONG).show();
+                }else{
+                    Log.d(TAG, "onSwiped - delete failed");
+                    Toast.makeText(Main2Activity.this, "Cant delete term with courses", Toast.LENGTH_LONG).show();
+                }
             }
         }).attachToRecyclerView(mRecyclerView);
 

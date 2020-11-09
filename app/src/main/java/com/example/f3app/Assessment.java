@@ -39,7 +39,7 @@ public class Assessment {
     }
 
     public String getType() {
-        return status;
+        return type;
     }
 
     public void setId(int id) {
@@ -62,7 +62,7 @@ public class Assessment {
         this.status = status;
     }
 
-    public void setType(String status) {
+    public void setType(String type) {
         this.type = type;
     }
 

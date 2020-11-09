@@ -38,6 +38,11 @@ public class AssessmentViewModel extends AndroidViewModel {
         assessmentsRepository.deleteAllAssessments();
     }
 
+    public int countCourseAssessments(int course_id) {
+        Log.d(TAG, "countCourseAssessments started for course: " + course_id);
+        return assessmentsRepository.countCourseAssessments(course_id);
+    }
+
     public LiveData<List<Assessment>> getAllAssessments(int course_id){
         Log.i(TAG, "AssessmentViewModel.getAllAssessments started");
         return assessmentsRepository.getAllAssessments(course_id);

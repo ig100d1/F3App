@@ -24,6 +24,9 @@ public interface AssessmentDao {
     @Query("DELETE FROM assessment")
     void deleteAllAssessments();
 
+    @Query("SELECT COUNT(*) FROM assessment WHERE courseId = :course_id")
+    int countCourseAssessments(int course_id);
+
     @Query("SELECT * FROM assessment WHERE courseId = :course_id ORDER BY dueDate ASC")
     LiveData<List<Assessment>> getAllAssessments(int course_id);
 }
