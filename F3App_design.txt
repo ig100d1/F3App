@@ -36,3 +36,15 @@ todo:
 
 
 
+ buttonAddCourse.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Log.i(TAG, "started buttonAddCourse onClick method");
+                newIntent= new Intent(CourseActivity.this, AddModifyCourseActivity.class );
+                packTermIntent();
+                startActivityForResult(newIntent,ADD_COURSE_REQUEST);
+            }
+        });
+
+
+
+
