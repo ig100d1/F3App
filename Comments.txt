@@ -1,5 +1,10 @@
 Android Studio:
 when error:
+android studio unable to locate adb
+1. open sdk manager which is icon in upper right
+2. select device with api level 18 android4, it is jeely bean sandwich
+
+when error:
  "License for package Android SDK Build-Tools 29.0.3 not accepted."
 fix with:
 cd /Users/igor/Library/Android/sdk/tools/bin
