@@ -33,6 +33,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
     @Override
     public void onBindViewHolder(@NonNull AssessmentAdapterViewHolder holder, int position) {
         holder.assessmentName.setText(assessments.get(position).getTitle());
+        holder.assessmentStatus.setText(assessments.get(position).getStatus());
     }
 
     @Override
@@ -54,11 +55,13 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
 
         private static final String TAG = "IgB:AssmentAdapViewHold";
         private TextView assessmentName;
+        private TextView assessmentStatus;
 
         public AssessmentAdapterViewHolder(@NonNull View itemView){
             super(itemView);
             Log.i(TAG, "started AssessmentAdapterViewHolder constructor");
             assessmentName = itemView.findViewById(R.id.text_view_name);
+            assessmentStatus = itemView.findViewById(R.id.text_view_status);
 
             Log.i(TAG, "started AssessmentAdapterViewHolder constructor");
 

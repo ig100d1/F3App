@@ -32,12 +32,16 @@ public class AddModifyNoteActivity extends AppCompatActivity {
     public static final String TAG = "IgB:AddModifyNoteActiv";
 
     private EditText editTextNoteNote;
+    private EditText editTextNoteTitle;
     private int courseId;
     private int termId;
     private Intent newIntent;
+    private boolean sendEmail = false;
+    private boolean sendSms = false;
 
     public static final String NOTE_ID = "noteId";
-    public static final String NOTE_NOTE = "noteTitle";
+    public static final String NOTE_NOTE = "noteNote";
+    public static final String NOTE_TITLE = "noteTitle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class AddModifyNoteActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add_modify_note);
         editTextNoteNote = findViewById(R.id.edit_text_note);
+        editTextNoteTitle = findViewById(R.id.edit_text_title);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_blue_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,6 +74,7 @@ public class AddModifyNoteActivity extends AppCompatActivity {
             setTitle("Edit Note");
 
             editTextNoteNote.setText(intent.getStringExtra(NOTE_NOTE));
+            editTextNoteTitle.setText(intent.getStringExtra(NOTE_TITLE));
 
         }else {
             setTitle("Add Note");
@@ -77,19 +83,28 @@ public class AddModifyNoteActivity extends AppCompatActivity {
 
     private void saveNote(){
 
-        Log.i(TAG, "saveNote started");
-        String noteTitle = editTextNoteNote.getText().toString();
+        final String fun = "saveNote";
+        Log.i(TAG, fun + " - started");
+        String noteNote = editTextNoteNote.getText().toString();
+        String noteTitle = editTextNoteTitle.getText().toString();
 
-        if ( noteTitle.trim().isEmpty() ) {
-            Log.e(TAG, "saveNote title is missing");
-            Toast.makeText(this, "Please insert title", Toast.LENGTH_SHORT).show();
+        if ( noteNote.trim().isEmpty() ) {
+            Log.e(TAG, fun + " - text is missing");
+            Toast.makeText(this, "Please insert text", Toast.LENGTH_SHORT).show();
             return;
         }
 
         newIntent = new Intent();
         packTermIntent();
         packCourseIntent();
-        newIntent.putExtra(NOTE_NOTE, noteTitle);
+        newIntent.putExtra(NOTE_NOTE, noteNote);
+        newIntent.putExtra(NOTE_TITLE, noteTitle);
+        if (sendEmail){
+            newIntent.putExtra("SEND_EMAIL", "true");
+        }
+        if (sendSms){
+            newIntent.putExtra("SEND_SMS", "true");
+        }
 
         // -1 is for no id, when addNote
         int id = getIntent().getIntExtra(NOTE_ID, -1);
@@ -98,7 +113,7 @@ public class AddModifyNoteActivity extends AppCompatActivity {
         }
 
         setResult(RESULT_OK, newIntent);
-        Log.i(TAG, "saveNote is finishing");
+        Log.i(TAG, fun + " - finishing");
 
         finish();
     }
@@ -123,6 +138,16 @@ public class AddModifyNoteActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_note:
                 Log.i(TAG, "AddModifyNoteActivity.onOptionItemSelected called for SAVE");
+                saveNote();
+                return true;
+            case R.id.share_note_email:
+                Log.i(TAG, "AddModifyNoteActivity.onOptionItemSelected called for Email");
+                sendEmail = true;
+                saveNote();
+                return true;
+            case R.id.share_note_sms:
+                Log.i(TAG, "AddModifyNoteActivity.onOptionItemSelected called for SMS");
+                sendSms = true;
                 saveNote();
                 return true;
             case android.R.id.home:

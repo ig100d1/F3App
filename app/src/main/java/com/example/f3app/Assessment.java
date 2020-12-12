@@ -19,7 +19,7 @@ public class Assessment {
         return dueDate;
     }
 
-    public Assessment(String title, String dueDate, int courseId, String status, String type) {
+    public Assessment(String title, String dueDate, int courseId, String status, int progress, String type) {
         ass_debug_counter = ass_debug_counter + 1;
         Log.i(TAG, "Assessment constructor started for obj # "
                 + ass_debug_counter);
@@ -27,6 +27,7 @@ public class Assessment {
         this.dueDate = dueDate;
         this.courseId = courseId;
         this.status = status;
+        this.progress = progress;
         this.type = type;
     }
 
@@ -36,6 +37,10 @@ public class Assessment {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getProgress() {
+        return progress;
     }
 
     public String getType() {
@@ -62,6 +67,10 @@ public class Assessment {
         this.status = status;
     }
 
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -72,6 +81,7 @@ public class Assessment {
     private String dueDate;
     private int courseId;
     private String status;
+    private int progress;
     private String type;
     private static int ass_debug_counter = 0;
 

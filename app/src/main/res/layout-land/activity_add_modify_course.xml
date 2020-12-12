@@ -3,39 +3,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-
-    tools:context=".AddModifyCourseActivity">
+    android:padding="10dp"
+    tools:context=".AddModifyCourseActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/course_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="Course Title"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/course_status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/course_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Status"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/course_title"/>
 
     <EditText
         android:id="@+id/course_start_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="Start Date"
         android:inputType="text"
         android:editable="false"
         android:onClick="showDatePickerDialogForStartDate"
-        app:layout_constraintEnd_toStartOf="@+id/course_start_date_alert"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/course_end_date"
+        app:layout_constraintStart_toEndOf="@+id/course_start_date_alert"
         app:layout_constraintTop_toBottomOf="@+id/course_title" />
 
     <ToggleButton
@@ -44,27 +56,28 @@
         android:textOff="Alarm Off"
         android:textOn="Alarm On"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/course_start_date"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/course_start_date"
         app:layout_constraintTop_toBottomOf="@+id/course_title"
         />
+
 
     <EditText
         android:id="@+id/course_end_date"
         android:onClick="showDatePickerDialogForEndDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="End Date"
         android:inputType="text"
         app:layout_constraintEnd_toStartOf="@+id/course_end_date_alert"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_start_date" />
+        app:layout_constraintStart_toEndOf="@+id/course_start_date"
+        app:layout_constraintTop_toBottomOf="@+id/course_status" />
 
     <ToggleButton
         android:id="@+id/course_end_date_alert"
@@ -72,121 +85,106 @@
         android:textOff="Alarm Off"
         android:textOn="Alarm On"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/course_end_date"
-        app:layout_constraintTop_toBottomOf="@+id/course_start_date_alert"
+        app:layout_constraintTop_toBottomOf="@+id/course_status"
         />
 
-    <EditText
-        android:id="@+id/course_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:hint="Status"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_end_date_alert" />
+
 
     <EditText
         android:id="@+id/course_mentor_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="Mentor Name"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_show_notes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_status" />
+        app:layout_constraintTop_toBottomOf="@+id/course_email" />
 
     <EditText
         android:id="@+id/course_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="Phone"
         android:inputType="text"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/button_send_email"
         app:layout_constraintEnd_toStartOf="@+id/button_send_sms"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_mentor_name" />
+        app:layout_constraintTop_toBottomOf="@+id/course_end_date_alert" />
+
 
     <Button
         android:id="@+id/button_send_sms"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:text="sms"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/course_phone"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_mentor_name" />
+        app:layout_constraintTop_toBottomOf="@+id/course_end_date_alert" />
 
     <EditText
         android:id="@+id/course_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:hint="Email"
         android:inputType="text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintEnd_toStartOf="@+id/button_send_email"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_phone" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/course_start_date_alert" />
 
     <Button
         android:id="@+id/button_send_email"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:text="email"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/course_email"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_send_sms" />
-
-
+        app:layout_constraintHorizontal_bias="8.0"
+        app:layout_constraintStart_toEndOf="@+id/course_email"
+        app:layout_constraintEnd_toStartOf="@+id/course_phone"
+        app:layout_constraintTop_toBottomOf="@+id/course_start_date" />
 
     <Button
         android:id="@+id/button_show_notes"
-        android:layout_width="224dp"
+        android:layout_width="0dp"
         android:layout_height="34dp"
         android:text="Show Notes"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_email" />
+        app:layout_constraintStart_toEndOf="@+id/button_send_email"
+        app:layout_constraintTop_toBottomOf="@+id/course_phone" />
 
     <Button
         android:id="@+id/button_show_assessments"
-        android:layout_width="224dp"
-        android:layout_height="34dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="Show Assessments"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_show_notes" />
+        app:layout_constraintHorizontal_bias="8.0"
+        app:layout_constraintStart_toEndOf="@id/button_show_notes"
+        app:layout_constraintTop_toBottomOf="@+id/course_phone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

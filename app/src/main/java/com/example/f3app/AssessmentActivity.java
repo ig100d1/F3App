@@ -137,6 +137,7 @@ public class AssessmentActivity extends AppCompatActivity {
                 newIntent.putExtra(AddModifyAssessmentActivity.ASSESSMENT_DUE_DATE, assessment.getDueDate());
                 newIntent.putExtra(AddModifyAssessmentActivity.ASSESSMENT_TYPE, assessment.getType());
                 newIntent.putExtra(AddModifyAssessmentActivity.ASSESSMENT_STATUS, assessment.getStatus());
+                newIntent.putExtra(AddModifyAssessmentActivity.ASSESSMENT_PROGRESS, assessment.getProgress());
                 packTermIntent();
                 packCourseIntent();
                 startActivityForResult(newIntent, EDIT_ASSESSMENT_REQUEST);
@@ -209,11 +210,12 @@ public class AssessmentActivity extends AppCompatActivity {
             String assessmentStatus = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_STATUS);
             String assessmentDueDate = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_DUE_DATE);
             String assessmentType = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_TYPE);
+            int assessmentProgress = data.getIntExtra(AddModifyAssessmentActivity.ASSESSMENT_PROGRESS,0);
 
             int assessmentCourseId = data.getIntExtra(COURSE_ID, -1 );
 
             Assessment c = new Assessment(assessmentTitle, assessmentDueDate, assessmentCourseId,
-                    assessmentStatus, assessmentType);
+                    assessmentStatus, assessmentProgress, assessmentType);
 
             assessmentViewModel.insert(c);
             Toast.makeText(this, "Assessment Saved", Toast.LENGTH_SHORT).show();
@@ -230,11 +232,12 @@ public class AssessmentActivity extends AppCompatActivity {
             String assessmentStatus = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_STATUS);
             String assessmentDueDate = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_DUE_DATE);
             String assessmentType = data.getStringExtra(AddModifyAssessmentActivity.ASSESSMENT_TYPE);
+            int assessmentProgress = data.getIntExtra(AddModifyAssessmentActivity.ASSESSMENT_PROGRESS,0);
 
             int assessmentCourseId = data.getIntExtra(COURSE_ID, -1 );
 
             Assessment c = new Assessment(assessmentTitle, assessmentDueDate, assessmentCourseId,
-                    assessmentStatus, assessmentType);
+                    assessmentStatus, assessmentProgress, assessmentType);
 
             c.setId(assessmentId);
             assessmentViewModel.update(c);

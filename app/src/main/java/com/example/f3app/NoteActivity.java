@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import static android.content.Intent.EXTRA_EMAIL;
+import static android.content.Intent.EXTRA_SUBJECT;
+import static android.content.Intent.EXTRA_TEXT;
 import static com.example.f3app.AddEditTermActivity.TERM_END_DATE;
 import static com.example.f3app.AddEditTermActivity.TERM_ID;
 import static com.example.f3app.AddEditTermActivity.TERM_START_DATE;
@@ -133,6 +138,7 @@ public class NoteActivity extends AppCompatActivity {
                 newIntent = new Intent(NoteActivity.this, AddModifyNoteActivity.class);
                 newIntent.putExtra(AddModifyNoteActivity.NOTE_ID, note.getId());
                 newIntent.putExtra(AddModifyNoteActivity.NOTE_NOTE, note.getNote());
+                newIntent.putExtra(AddModifyNoteActivity.NOTE_TITLE, note.getTitle());
                 packTermIntent();
                 packCourseIntent();
                 startActivityForResult(newIntent, EDIT_NOTE_REQUEST);
@@ -196,13 +202,23 @@ public class NoteActivity extends AppCompatActivity {
             Log.i(TAG, "onActivityResult has new note data to add");
 
             String noteNote = data.getStringExtra(AddModifyNoteActivity.NOTE_NOTE);
+            String noteTitle = data.getStringExtra(AddModifyNoteActivity.NOTE_TITLE);
 
             int noteCourseId = data.getIntExtra(COURSE_ID, -1 );
 
-            Note c = new Note(noteCourseId, noteNote);
+            Note c = new Note(noteCourseId, noteTitle, noteNote);
 
             noteViewModel.insert(c);
             Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+
+            // implementing sharing with email and sms
+            // instead of menu option need to use checkbox
+            if (data.hasExtra("SEND_EMAIL")) {
+                sendEmail(noteTitle, noteNote);
+            }
+            if (data.hasExtra("SEND_SMS")) {
+                sendSms(noteNote);
+            }
 
         } else if( requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
             Log.i(TAG, "onActivityResult has modified data to save");
@@ -213,17 +229,29 @@ public class NoteActivity extends AppCompatActivity {
             }
 
             String noteNote = data.getStringExtra(AddModifyNoteActivity.NOTE_NOTE);
+            String noteTitle = data.getStringExtra(AddModifyNoteActivity.NOTE_TITLE);
             int noteCourseId = data.getIntExtra(COURSE_ID, -1 );
-            Note n = new Note(noteCourseId,noteNote);
+            Note n = new Note(noteCourseId, noteTitle, noteNote);
 
             n.setId(noteId);
             noteViewModel.update(n);
             Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
 
+            // implementing sharing with email and sms
+            // instead of menu option need to use checkbox
+            if (data.hasExtra("SEND_EMAIL")) {
+                sendEmail(noteTitle, noteNote);
+            }
+            if (data.hasExtra("SEND_SMS")) {
+                sendSms(noteNote);
+            }
+
+
         }else{
-            Log.i(TAG, "onActivityResult has no data to save");
+            Log.e(TAG, "onActivityResult has no data to save");
             Toast.makeText(this, "Note Not Saved", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void packTermIntent(){
@@ -246,5 +274,25 @@ public class NoteActivity extends AppCompatActivity {
         newIntent.putExtra(COURSE_MENTOR,getIntent().getStringExtra(COURSE_MENTOR));
         newIntent.putExtra(COURSE_PHONE,getIntent().getStringExtra(COURSE_PHONE));
         newIntent.putExtra(COURSE_EMAIL,getIntent().getStringExtra(COURSE_EMAIL));
+    }
+
+    private void sendEmail(String title, String note){
+        final String fun = "sendEmail";
+        Log.i(TAG, fun + " started");
+        Intent sendEmail = new Intent(Intent.ACTION_SENDTO);
+        sendEmail.setType("text/plain");
+        sendEmail.putExtra(EXTRA_EMAIL, new String[]{getIntent().getStringExtra(COURSE_EMAIL)});
+        sendEmail.putExtra(EXTRA_SUBJECT, title);
+        sendEmail.putExtra(EXTRA_TEXT, note);
+        //sendEmail.setData(Uri.parse("mailto:"));
+        startActivity(Intent.createChooser(sendEmail, "Send Email"));
+    }
+
+    private void sendSms(String note){
+        final String fun = "sendSms";
+        Log.i(TAG, fun + " started");
+        SmsManager smgr = SmsManager.getDefault();
+        smgr.sendTextMessage(getIntent().getStringExtra(COURSE_PHONE),null,note,null,null);
+        Log.i(TAG, fun + " finished");
     }
 }

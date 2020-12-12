@@ -1,4 +1,6 @@
 Android Studio:
+
+
 when error:
 android studio unable to locate adb
 1. open sdk manager which is icon in upper right
@@ -72,3 +74,4 @@ https://www.youtube.com/watch?v=JLwW5HivZg4
 
 
 
+optional gradle plugin configuration: https://developer.android.com/studio/releases/gradle-plugin

@@ -5,7 +5,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -17,10 +21,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static android.app.AlarmManager.RTC;
 import static com.example.f3app.AddEditTermActivity.TERM_END_DATE;
 import static com.example.f3app.AddEditTermActivity.TERM_ID;
 import static com.example.f3app.AddEditTermActivity.TERM_START_DATE;
@@ -42,10 +54,16 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         implements ActivityWithDates, AdapterView.OnItemSelectedListener {
     public static final String TAG = "IgB:AddModifyAssesActi";
 
+
+    private NotificationManager mNotificationManager;
+    private int NOTIFICATION_ID = 3;
     private EditText editTextAssessmentTitle;
     private EditText editTextAssessmentDueDate;
-    private EditText editTextAssessmentStatus;
+    private TextView textViewAssessmentStatus;
     private Spinner spinnerAssessmentType;
+    private ProgressBar progressBarAssessment;
+    private Button buttonProgressBarLess;
+    private Button buttonProgressBarMore;
 
     private int courseId;
     private int termId;
@@ -59,6 +77,7 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
     public static final String ASSESSMENT_DUE_DATE = "assessmentDueDate";
     public static final String ASSESSMENT_STATUS = "assessmentStatus";
     public static final String ASSESSMENT_TYPE = "assessmentType";
+    public static final String ASSESSMENT_PROGRESS = "assessmentProgress";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +107,30 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
             Toast.makeText(this,"missing course end date",Toast.LENGTH_LONG).show();
             return;
         }
+
         Log.i(TAG, "onCreate started for course id: " + courseId);
 
         setContentView(R.layout.activity_add_modify_assessment);
         editTextAssessmentTitle = findViewById(R.id.assessment_title);
         editTextAssessmentDueDate = findViewById(R.id.assessment_due_date);
-        editTextAssessmentStatus= findViewById(R.id.assessment_status);
+        textViewAssessmentStatus= findViewById(R.id.assessment_status);
+        progressBarAssessment = findViewById(R.id.assessment_progress_bar);
+        progressBarAssessment.setProgress(intent.getIntExtra(ASSESSMENT_PROGRESS, 0));
+        if (progressBarAssessment.getProgress()==0){
+                    textViewAssessmentStatus.setText("not started");
+        }
+        buttonProgressBarLess = findViewById(R.id.buttonProgressLess);
+        buttonProgressBarMore = findViewById(R.id.buttonProgressMore);
+
+        //messageNotification
+        //alertName = assessmentTitle + " " + "Start Date Alert";
+        ToggleButton dueDateToggle = findViewById(R.id.assessment_due_date_alert);
+        // setDateAlertToggle("Start Date Alert", startDateAlertToggle);
+        setDateAlertToggle("Assessment Alert", dueDateToggle, ASSESSMENT_DUE_DATE);
+
+        runProgressBarLess();
+        runProgressBarMore();
+
         spinnerAssessmentType = (Spinner) findViewById(R.id.assessment_type);
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,
                 R.array.assessment_types_array, android.R.layout.simple_spinner_dropdown_item);
@@ -108,14 +145,51 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
             setTitle("Edit Assessment");
             editTextAssessmentTitle.setText(intent.getStringExtra(ASSESSMENT_TITLE));
             editTextAssessmentDueDate.setText(intent.getStringExtra(ASSESSMENT_DUE_DATE));
-            editTextAssessmentStatus.setText(intent.getStringExtra(ASSESSMENT_STATUS));
+            textViewAssessmentStatus.setText(intent.getStringExtra(ASSESSMENT_STATUS));
             assessmentType = intent.getStringExtra(ASSESSMENT_TYPE);
             spinnerAssessmentType.setSelection(adapterSpinner.getPosition(assessmentType));
+            progressBarAssessment.setProgress(intent.getIntExtra(ASSESSMENT_PROGRESS,0));
             Log.d(TAG, "onCreate, editAssessment, got type from parent : " + assessmentType);
 
         }else {
             setTitle("Add Assessment");
         }
+
+    }
+
+    public void runProgressBarMore(){
+        buttonProgressBarMore.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "started buttonProgressBarMore onClick method");
+                int progress = progressBarAssessment.getProgress();
+                if (progress<100) {
+                    progress += 10;
+                    progressBarAssessment.setProgress(progress);
+                    textViewAssessmentStatus.setText("in progress");
+                }else{
+                    textViewAssessmentStatus.setText("completed");
+                }
+            }
+        });
+
+    }
+
+    public void runProgressBarLess(){
+        buttonProgressBarLess.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "started buttonProgressBarLess onClick method");
+                int progress = progressBarAssessment.getProgress();
+                if (progress>0) {
+                    progress -= 10;
+                    progressBarAssessment.setProgress(progress);
+                    textViewAssessmentStatus.setText("in progress");
+                }else{
+                    textViewAssessmentStatus.setText("not started");
+                }
+            }
+        });
 
     }
 
@@ -150,7 +224,8 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         Log.i(TAG, "saveAssessment started");
         String assessmentTitle = editTextAssessmentTitle.getText().toString();
         String assessmentDueDate = editTextAssessmentDueDate.getText().toString();
-        String assessmentStatus = editTextAssessmentStatus.getText().toString();
+        String assessmentStatus = textViewAssessmentStatus.getText().toString();
+        int assessmentProgress = progressBarAssessment.getProgress();
 
         if ( assessmentTitle.trim().isEmpty() ) {
             Log.e(TAG, "saveAssessment title is missing");
@@ -182,6 +257,7 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
         newIntent.putExtra(ASSESSMENT_TITLE, assessmentTitle);
         newIntent.putExtra(ASSESSMENT_DUE_DATE, assessmentDueDate);
         newIntent.putExtra(ASSESSMENT_STATUS, assessmentStatus);
+        newIntent.putExtra(ASSESSMENT_PROGRESS, assessmentProgress);
         Log.d(TAG, "saveAssessment saving type as : " + assessmentType);
         newIntent.putExtra(ASSESSMENT_TYPE, assessmentType);
 
@@ -276,6 +352,99 @@ public class AddModifyAssessmentActivity extends AppCompatActivity
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+
+    //messageNotification
+    //alertName = assessmentTitle + " " + "Start Date Alert";
+    //ToggleButton startDateAlertToggle = findViewById(R.id.course_start_date_alert);
+    // setDateAlertToggle("Start Date Alert", startDateAlertToggle);
+    private void setDateAlertToggle(String messageNotification, ToggleButton button, String extrasDateLocation){
+
+        String fun = "setDateAlertToggle";
+        Log.i(TAG, fun + "-  started");
+
+        Context myContext = this;
+        boolean alarmUp = false;
+        final Intent notifyIntent = new Intent(myContext, CourseAlarmReceiver.class);
+        notifyIntent.putExtras(getIntent());
+
+        String alertName ;
+        String assessmentTitle;
+
+        if ( getIntent().hasExtra(ASSESSMENT_TITLE) ){
+            assessmentTitle = getIntent().getStringExtra(ASSESSMENT_TITLE);
+            alertName = messageNotification + " " + assessmentTitle;
+            Log.d(TAG, fun + " - checks for alert called : " + alertName);
+            notifyIntent.setAction(alertName);
+            alarmUp = (PendingIntent.getBroadcast(myContext, NOTIFICATION_ID, notifyIntent,
+                    PendingIntent.FLAG_NO_CREATE) != null);
+            if(! alarmUp) {
+                Log.d(TAG, fun + " - checks could not find alert called : " + alertName);
+            }
+
+        }else{
+            Log.i(TAG, fun + " - started with non existing assessment");
+        }
+
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        button.setChecked(alarmUp);
+
+        button.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked) {
+
+                        if ( ! getIntent().hasExtra(ASSESSMENT_TITLE) ) {
+                            Log.e(TAG, fun + " - setOnCheckedChangeListener there is no ASSESSMENT_TITLE");
+                            Toast.makeText(myContext, "Save Assessment to setup Alarm", Toast.LENGTH_SHORT).show();
+                            button.setChecked(false);
+                            return;
+                        }
+
+                        String assessmentTitle = getIntent().getStringExtra(ASSESSMENT_TITLE);
+                        String alertName = messageNotification + " " + assessmentTitle;
+
+                        Log.i(TAG, fun + " - onCheckedChanged called to set alert with name: " + alertName);
+                        notifyIntent.setAction(alertName);
+
+                        PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
+                                (myContext, NOTIFICATION_ID, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        String toastMessage;
+                        if(isChecked){
+                            //Set the toast message for the "on" case.
+                            toastMessage = "Alert On";
+                            //deliverNotification(MainActivity.this);
+                            if (alarmManager!=null) {
+
+                                try {
+                                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(getIntent().getStringExtra(extrasDateLocation));
+                                    alarmManager.set(RTC, date.getTime(), notifyPendingIntent);
+                                }catch (java.text.ParseException e){
+                                    Log.e(TAG, fun + " - failed to parse seconds from date: " + getIntent().getStringExtra(extrasDateLocation)) ;
+                                }
+                            }
+                        } else {
+                            //Set the toast message for the "off" case.
+                            if (alarmManager != null) {
+                                alarmManager.cancel(notifyPendingIntent);
+                            }
+                            toastMessage = "Alert Off";
+                            //mNotificationManager.cancelAll();
+                            mNotificationManager.cancel(NOTIFICATION_ID);
+                        }
+
+                        //Show a toast to say the alarm is turned on or off.
+                        //Toast.makeText(AddModifyCourseActivity.this, toastMessage, Toast.LENGTH_SHORT)
+                        Toast.makeText(myContext, toastMessage, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
     }
 
 }

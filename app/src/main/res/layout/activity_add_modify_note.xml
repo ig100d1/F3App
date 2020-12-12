@@ -8,24 +8,41 @@
     android:padding="20dp"
     tools:context=".AddModifyNoteActivity">
 
+
+
     <EditText
-        android:id="@+id/edit_text_note"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:id="@+id/edit_text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="notes"
-        android:lines="8"
-        android:minLines="6"
+        android:layout_marginStart="20dp"
+        android:hint="title"
+        android:lines="1"
         android:gravity="top|left"
-        android:maxLines="10"
-        android:scrollbars="vertical"
-        android:inputType="textMultiLine"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_note" />
+
+    <EditText
+        android:id="@+id/edit_text_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:hint="notes"
+        android:lines="10"
+        android:minLines="5"
+        android:gravity="top|left"
+        android:maxLines="10"
+
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

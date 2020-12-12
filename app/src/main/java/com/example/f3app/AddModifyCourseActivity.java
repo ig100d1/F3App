@@ -4,17 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static android.app.AlarmManager.ELAPSED_REALTIME_WAKEUP;
+import static android.app.AlarmManager.RTC;
 import static com.example.f3app.AddEditTermActivity.TERM_END_DATE;
 import static com.example.f3app.AddEditTermActivity.TERM_ID;
 import static com.example.f3app.AddEditTermActivity.TERM_START_DATE;
@@ -22,6 +34,15 @@ import static com.example.f3app.AddEditTermActivity.TERM_TITLE;
 
 public class AddModifyCourseActivity extends AppCompatActivity implements ActivityWithDates {
     public static final String TAG = "IgB:AddModifyCourseActi";
+
+
+    private NotificationManager mNotificationManager;
+
+    private static final int START_DATE_NOTIFICATION_ID = 0;
+    private static final int END_DATE_NOTIFICATION_ID = 1;
+
+    // not going to be used because Android4.0
+    private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
 
     private EditText editTextCourseTitle;
     private EditText editTextCourseStartDate;
@@ -35,6 +56,7 @@ public class AddModifyCourseActivity extends AppCompatActivity implements Activi
 
     private Button buttonShowAssessments;
     private Button buttonShowNotes;
+    private Button buttonSendEmail;
 
     public static final int SHOW_ASSESSMENTS_REQUEST = 1;
     public static final int SHOW_NOTES_REQUEST = 1;
@@ -75,6 +97,12 @@ public class AddModifyCourseActivity extends AppCompatActivity implements Activi
         editTextCourseMentorName = findViewById(R.id.course_mentor_name);
         editTextCourseEmail = findViewById(R.id.course_email);
         editTextCoursePhone = findViewById(R.id.course_phone);
+        buttonSendEmail = findViewById(R.id.button_send_email);
+
+        ToggleButton startDateAlertToggle = findViewById(R.id.course_start_date_alert);
+        setDateAlertToggle("Start Date Alert", startDateAlertToggle, COURSE_START_DATE);
+        ToggleButton endDateAlertToggle = findViewById(R.id.course_end_date_alert);
+        setDateAlertToggle("End Date Alert", endDateAlertToggle, COURSE_END_DATE);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_blue_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -124,6 +152,19 @@ public class AddModifyCourseActivity extends AppCompatActivity implements Activi
             buttonShowNotes = findViewById(R.id.button_show_notes);
             buttonShowNotes.setVisibility(Button.INVISIBLE);
         }
+    }
+
+
+
+    public void sendEmail(){
+        buttonSendEmail.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "started buttonSendEmail onClick method");
+                Intent intentSendEmail = new Intent();
+            }
+        });
+
     }
 
     private void saveCourse(){
@@ -323,5 +364,105 @@ public class AddModifyCourseActivity extends AppCompatActivity implements Activi
         Log.i(TAG, "setStartDate called for date: " + date);
         this.editTextCourseStartDate.setText(date);
     }
+
+    //messageNotification
+    //alertName = courseTitle + " " + "Start Date Alert";
+    //ToggleButton startDateAlertToggle = findViewById(R.id.course_start_date_alert);
+    // setDateAlertToggle("Start Date Alert", startDateAlertToggle);
+    private void setDateAlertToggle(String messageNotification, ToggleButton button, String extrasDateLocation){
+
+        String fun = "setDateAlertToggle";
+        Log.i(TAG, fun + "- setStartDateAlertToggle v2 started");
+
+        Context myContext = this;
+        boolean alarmUp = false;
+        final Intent notifyIntent = new Intent(myContext, CourseAlarmReceiver.class);
+        notifyIntent.putExtras(getIntent());
+
+        String alertName ;
+        String courseTitle;
+
+        if ( getIntent().hasExtra(COURSE_TITLE) ){
+            courseTitle = getIntent().getStringExtra(COURSE_TITLE);
+            alertName = courseTitle + " " + messageNotification;
+            Log.d(TAG, fun + " - checks for alert called : " + alertName);
+            notifyIntent.setAction(alertName);
+            alarmUp = (PendingIntent.getBroadcast(myContext, START_DATE_NOTIFICATION_ID, notifyIntent,
+                    PendingIntent.FLAG_NO_CREATE) != null);
+            if(! alarmUp) {
+                Log.d(TAG, fun + " - checks could not find alert called : " + alertName);
+            }
+
+        }else{
+            Log.i(TAG, fun + " - started with non existing course");
+        }
+
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        button.setChecked(alarmUp);
+
+        button.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton,
+                                                 boolean isChecked) {
+
+                        if ( ! getIntent().hasExtra(COURSE_TITLE) ) {
+                            Log.e(TAG, fun + " - setOnCheckedChangeListener there is no COURSE_TITLE");
+                            Toast.makeText(myContext, "Save Course to setup Alarm", Toast.LENGTH_SHORT).show();
+                            button.setChecked(false);
+                            return;
+                        }
+
+                        String courseTitle = getIntent().getStringExtra(COURSE_TITLE);
+                        String alertName = courseTitle + " " + messageNotification;
+
+                        Log.i(TAG, fun + " - onCheckedChanged called to set alert with name: " + alertName);
+                        notifyIntent.setAction(alertName);
+
+                        PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
+                                (myContext, START_DATE_NOTIFICATION_ID, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        String toastMessage;
+                        if(isChecked){
+                            //Set the toast message for the "on" case.
+                            toastMessage = "Alert On";
+                            //deliverNotification(MainActivity.this);
+                            if (alarmManager!=null) {
+
+                                //long repeatInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+                                //long repeatInterval = 20 * 1000;
+                                //long triggerTime = SystemClock.elapsedRealtime()
+                                //+ repeatInterval;
+
+                                //alarmManager.setInexactRepeating(ELAPSED_REALTIME_WAKEUP, triggerTime, repeatInterval, notifyPendingIntent );
+                                try {
+                                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(getIntent().getStringExtra(extrasDateLocation));
+                                    alarmManager.set(RTC, date.getTime(), notifyPendingIntent);
+                                }catch (java.text.ParseException e){
+                                    Log.e(TAG, fun + " - failed to parse seconds from date: " + getIntent().getStringExtra(extrasDateLocation)) ;
+                                }
+                            }
+                        } else {
+                            //Set the toast message for the "off" case.
+                            if (alarmManager != null) {
+                                alarmManager.cancel(notifyPendingIntent);
+                            }
+                            toastMessage = "Alert Off";
+                            //mNotificationManager.cancelAll();
+                            mNotificationManager.cancel(START_DATE_NOTIFICATION_ID);
+                        }
+
+                        //Show a toast to say the alarm is turned on or off.
+                        //Toast.makeText(AddModifyCourseActivity.this, toastMessage, Toast.LENGTH_SHORT)
+                        Toast.makeText(myContext, toastMessage, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
+    }
+
+
 
 }

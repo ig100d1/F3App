@@ -114,8 +114,8 @@ public class AddEditTermActivity extends AppCompatActivity implements ActivityWi
 
         Log.d(TAG,"saveTerm result_ok");
         setResult(RESULT_OK, data);
-        //finish();
-        startActivity(data);
+        finish();
+        //startActivity(data);
     }
 
     @Override

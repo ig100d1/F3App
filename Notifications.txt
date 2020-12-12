@@ -1,0 +1,51 @@
+https://developer.android.com/guide/topics/ui/notifiers/notifications
+
+
+# start building example
+https://developer.android.com/training/notify-user/build-notification
+
+
+# styles
+https://developer.android.com/reference/androidx/core/app/NotificationCompat.Style
+
+# sample
+https://github.com/android/user-interface-samples/tree/main/Notifications
+
+
+
+Status bar and notification drawer - thin area in the top of android screen
+when user drags down notification they get expanded view
+notification is visible until is dismissed by user
+
+
+heads-up notifications starting from A5
+
+
+# how to trigger notification?
+# lets try using alarmmanager
+https://developer.android.com/reference/android/app/AlarmManager
+
+# * * * Tutorial +!
+https://developer.android.com/codelabs/android-training-alarm-manager#0https://developer.android.com/codelabs/android-training-alarm-manager#0
+
+
+
+https://developer.android.com/training/scheduling/alarms.html
+
+
+
+AlarmManager, like notifications, uses a PendingIntent that it delivers with the specified options.
+Because of this, AlarmManager can deliver the Intent even when the app is no longer running.
+A broadcast receiver receives the broadcast intent and delivers the notification.
+
+
+# what is doze mode? (idle) alarm is not fired when device is idle?
+https://developer.android.com/training/monitoring-device-state/doze-standby
+
+# Broadcast receiver?
+is per app
+
+
+#
+#
+#

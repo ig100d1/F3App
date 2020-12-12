@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // we need to change version and implement fallbackToDestructiveMigration to re-seed database
-@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 9)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 11)
 public abstract class TermDatabase extends RoomDatabase {
     private static final String TAG = "IgB:TermDatabase";
     // this is to make sure we only can have single instance of this class
@@ -117,14 +117,14 @@ public abstract class TermDatabase extends RoomDatabase {
         courseDao.insert(new Course("mech1",
                 "2009-09-01", "2009-12-15", "completed",
                 "Roger Twister", "123-1234-12345", "profes1@school.edu", 1));
-        assessmentDao.insert(new Assessment("ass1", "2009-09-01", 1, "success", "performance"));
-        assessmentDao.insert(new Assessment("ass2", "2009-09-02", 1, "success", "objectives"));
-        noteDao.insert(new Note(1, "dont forget about it when doing mech1 "));
+        assessmentDao.insert(new Assessment("ass1", "2009-09-01", 1, "success", 100, "performance"));
+        assessmentDao.insert(new Assessment("ass2", "2009-09-02", 1, "success", 100, "objectives"));
+        noteDao.insert(new Note(1, "important note1", "dont forget about it when doing mech1 "));
 
         courseDao.insert(new Course("math1",
                 "2009-09-01", "2009-12-15", "failed",
                 "Anna Counter", "123-1234-12345", "pro1@school.edu", 1));
-        assessmentDao.insert(new Assessment("mass1", "2009-12-15", 2, "pending", "performance"));
+        assessmentDao.insert(new Assessment("mass1", "2009-12-15", 2, "in progress", 50, "performance"));
 
         courseDao.insert(new Course("lang1",
                 "2009-09-01", "2009-12-15", "enjoyed",
